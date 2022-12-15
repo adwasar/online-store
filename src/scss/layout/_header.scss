@@ -1,11 +1,11 @@
 .header {
   display: flex;
-  align-items: center;
   width: 100%;
-  height: 56px;
-  color: #fff;
+  color: $font-color-white;
   background-color: $back-dark;
   .header__wrapper {
+    align-items: center;
+    height: 56px;
     display: flex;
     justify-content: space-between;
     width: 100%;
