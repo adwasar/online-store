@@ -1,7 +1,8 @@
 @import 'abstracts/variables.scss';
 @import 'base/fonts';
-@import 'base/reset';
+@import 'base/base';
 @import 'components/buttons';
+@import 'components/header';
 @import 'layout/header';
 @import 'pages/home';
 @import 'themes/theme';
