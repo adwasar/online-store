@@ -13,8 +13,22 @@
 }
 
 .products {
+  display: flex;
+  flex-direction: column;
   width: 74%;
   height: 800px;
-  color: $font-color-white;
-  background-color: $back-dark;
+  border: solid 1px $back-dark;
+  .products__filters {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    border: solid 1px $back-dark;
+  }
+  .products__items {
+    width: 100%;
+    height: 100%;
+    border: solid 1px $back-dark;
+  }
 }

@@ -26,7 +26,21 @@
     <div class="wrapper">
       <div class="app-store-page">
         <aside class="filters">filters</aside>
-        <div class="products">products</div>
+        <div class="products">
+          <div class="products__filters">
+            <select class="products__sort-bar">
+              <option value="price-UP">Sort by price UP"</option>
+              <option value="price-DOWN">Sort by price DOWN"</option>
+              <option value="rating-UP">Sort by rating UP</option>
+              <option value="rating-DOWN">Sort by rating DOWN</option>
+              <option value="discount-UP">Sort by discount UP</option>
+              <option value="discount-DOWN">Sort by discount DOWN</option>
+            </select>
+            <div class="products__stat">found: 100</div>
+            <input type="text" class="products__search-bar" placeholder="Поиск"></input>
+          </div>
+          <div class="products__items"></div>
+        </div>
       </div>
     </div>
   </main>
