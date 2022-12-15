@@ -1,0 +1,19 @@
+.app-store-page {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters {
+  width: 25%;
+  height: 600px;
+  color: #fff;
+  background-color: $back-dark;
+}
+
+.products {
+  width: 74%;
+  height: 800px;
+  color: #fff;
+  background-color: $back-dark;
+}

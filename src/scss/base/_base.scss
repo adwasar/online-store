@@ -3,10 +3,13 @@
   padding: 0;
 }
 
-.wrapper {
+main {
   width: 100%;
-  max-width: 1234px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 40px;
+  display: flex;
+}
+
+.wrapper {
+  width: 1234px;
+  margin: 0 auto;
+  padding: 0 2%;
 }
