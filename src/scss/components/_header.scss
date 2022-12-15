@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  color: #fff;
+  background-color: $back-dark;
+  .header__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
