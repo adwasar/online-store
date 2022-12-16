@@ -7,9 +7,102 @@
 
 .filters {
   width: 25%;
-  height: 600px;
-  color: $font-color-white;
-  background-color: $back-dark;
+  height: min-content;
+  border: solid 1px $back-dark;
+  .filters__bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+    border: solid 1px $back-dark;
+  }
+}
+
+.filters__blocks {
+  .filters__category,
+  .filters__brand,
+  .filters__stock {
+    border: solid 1px $back-dark;
+    overflow: scroll;
+  }
+
+  .filters__category,
+  .filters__brand {
+    height: 200px;
+  }
+
+  .filters__checkbox-line {
+    display: flex;
+    padding: 10px;
+    span {
+      margin-left: auto;
+    }
+
+    label{
+      margin-left: 5px ;
+    }
+  }
+
+  h3 {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .filters__price,
+  .filters__stock {
+    overflow: scroll;
+    height: 100px;
+    border: solid 1px $back-dark;
+    .filters__multi-range {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: 20px auto;
+      .filters__slides-control {
+        position: relative;
+        height: 20px;
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          pointer-events: all;
+          width: 15px;
+          height: 15px;
+          background-color: #fff;
+          border-radius: 50%;
+          box-shadow: 0 0 0 1px #C6C6C6;
+          cursor: pointer;
+        }
+
+        input[type=range] {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 2px;
+          width: 100%;
+          position: absolute;
+          background-color: #C6C6C6;
+          pointer-events: none;
+        }
+
+        #from-slider {
+          height: 0;
+          z-index: 1;
+        }
+      }
+
+      .filters__form-control {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        input[type="number"] {
+          border: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+           opacity: 1;
+        }
+      }
+    }
+  }
 }
 
 .products {
