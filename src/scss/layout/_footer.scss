@@ -1,0 +1,14 @@
+.footer {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  background-color: $back-dark;
+  color: $font-color-white;
+  margin-top: auto;
+  .footer__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+  }
+}

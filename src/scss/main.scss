@@ -1,7 +1,23 @@
+//Abstract
 @import 'abstracts/variables.scss';
-@import 'base/reset';
+
+//Base
+@import 'base/fonts';
+@import 'base/base';
+
+//Components
 @import 'components/buttons';
+
+//Layout
+@import 'layout/footer';
 @import 'layout/header';
+@import 'layout/wrapper';
+
+//Pages
 @import 'pages/home';
+
+//Themes
 @import 'themes/theme';
+
+//Vendors
 @import 'vendors/bootstrap';

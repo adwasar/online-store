@@ -4,9 +4,124 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>online-store</title>
 </head>
 <body>
+
+  <header class="header">
+    <div class="wrapper">
+      <div class="header__wrapper">
+        <div class="header__logo">
+          <img src="#" alt="logo">
+        </div>
+        <div class="header__cart-total">Cart total: €0.00</div>
+        <div class="header__cart">
+          <img src="#" alt="cart">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrapper">
+      <div class="app-store-page">
+        <aside class="filters">
+          <div class="filters__bar">
+            <div class="filters__reset-filters">Сброс</div>
+            <div class="filters__copy-link">Копировать</div>
+          </div>
+          <div class="filters__blocks">
+            <h3>Категория</h3>
+            <div class="filters__category">
+              <div class="filters__checkbox-line"><input type="checkbox" id="a1"><label for="a1">категория a1</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a2"><label for="a2">категория a2</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a3"><label for="a3">категория a3</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a4"><label for="a4">категория a4</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a5"><label for="a5">категория a5</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a6"><label for="a6">категория a6</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a7"><label for="a7">категория a7</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="a8"><label for="a8">категория a8</label><span>(5/5)</span></div>
+            </div>
+
+            <h3>Бренд</h3>
+            <div class="filters__brand">
+              <div class="filters__checkbox-line"><input type="checkbox" id="b1"><label for="b1">бренд b1</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b2"><label for="b2">бренд b2</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b3"><label for="b3">бренд b3</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b4"><label for="b4">бренд b4</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b5"><label for="b5">бренд b5</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b6"><label for="b6">бренд b6</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b7"><label for="b7">бренд b7</label><span>(5/5)</span></div>
+              <div class="filters__checkbox-line"><input type="checkbox" id="b8"><label for="b8">бренд b8</label><span>(5/5)</span></div>
+            </div>
+
+            <h3>Цена</h3>
+            <div class="filters__price">
+              <div class="filters__multi-range">
+                <div class="filters__slides-control">
+                  <input type="range" id="from-slider" min="0" max="10" value="3">
+                  <input type="range" id="to-slider" min="0" max="10" value="7">
+                </div>
+                <div class="filters__form-control">
+                  <div class="filters__form-control-container">
+                    <div class="filters__form-control-container-price">min</div>
+                    <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+                  </div>
+                  <div class="filters__form-control-container">
+                    <div class="filters__form-control-container-price">max</div>
+                    <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3>В наличии</h3>
+            <div class="filters__stock">
+              <div class="filters__multi-range">
+                <div class="filters__slides-control">
+                  <input type="range" id="from-slider" min="0" max="10" value="3">
+                  <input type="range" id="to-slider" min="0" max="10" value="7">
+                </div>
+                <div class="filters__form-control">
+                  <div class="filters__form-control-container">
+                    <div class="filters__form-control-container-price">min</div>
+                    <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+                  </div>
+                  <div class="filters__form-control-container">
+                    <div class="filters__form-control-container-price">max</div>
+                    <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+        <div class="products">
+          <div class="products__filters">
+            <select class="products__sort-bar">
+              <option value="price-UP">Sort by price UP"</option>
+              <option value="price-DOWN">Sort by price DOWN"</option>
+              <option value="rating-UP">Sort by rating UP</option>
+              <option value="rating-DOWN">Sort by rating DOWN</option>
+              <option value="discount-UP">Sort by discount UP</option>
+              <option value="discount-DOWN">Sort by discount DOWN</option>
+            </select>
+            <div class="products__stat">found: 100</div>
+            <input type="text" class="products__search-bar" placeholder="Поиск"></input>
+          </div>
+          <div class="products__items"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrapper">
+      <div class="footer__content">Online Store 2022</div>
+    </div>
+  </footer>
 
 </body>
 </html>
