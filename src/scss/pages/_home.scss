@@ -82,7 +82,9 @@
           pointer-events: none;
         }
 
-        #from-slider {
+        #from-slider-price,
+        #from-slider-stock
+         {
           height: 0;
           z-index: 1;
         }
