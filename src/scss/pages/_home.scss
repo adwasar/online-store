@@ -20,15 +20,9 @@
 
 .filters__blocks {
   .filters__category,
-  .filters__brand,
-  .filters__stock {
-    border: solid 1px $back-dark;
-    overflow: scroll;
-  }
-
-  .filters__category,
   .filters__brand {
-    height: 200px;
+    border: solid 1px $back-dark;
+    height: min-content;
   }
 
   .filters__checkbox-line {
