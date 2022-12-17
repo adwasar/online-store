@@ -31,57 +31,66 @@
             <div class="filters__copy-link">Копировать</div>
           </div>
           <div class="filters__blocks">
-            <h3>Категория</h3>
-            <div class="filters__category">
-              <div class="filters__checkbox-line"><input type="checkbox" id="a1"><label for="a1">категория a1</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="a2"><label for="a2">категория a2</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="a3"><label for="a3">категория a3</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="a4"><label for="a4">категория a4</label><span>(5/5)</span></div>
+
+            <div class="filters__category-wrapper">
+              <h3>Категория</h3>
+              <div class="filters__category">
+                <div class="filters__checkbox-line"><input type="checkbox" id="a1"><label for="a1">категория a1</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="a2"><label for="a2">категория a2</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="a3"><label for="a3">категория a3</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="a4"><label for="a4">категория a4</label><span>(5/5)</span></div>
+              </div>
             </div>
 
-            <h3>Бренд</h3>
-            <div class="filters__brand">
-              <div class="filters__checkbox-line"><input type="checkbox" id="b1"><label for="b1">бренд b1</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="b2"><label for="b2">бренд b2</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="b3"><label for="b3">бренд b3</label><span>(5/5)</span></div>
-              <div class="filters__checkbox-line"><input type="checkbox" id="b4"><label for="b4">бренд b4</label><span>(5/5)</span></div>
+            <div class="filters__brand-wrapper">
+              <h3>Бренд</h3>
+              <div class="filters__brand">
+                <div class="filters__checkbox-line"><input type="checkbox" id="b1"><label for="b1">бренд b1</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="b2"><label for="b2">бренд b2</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="b3"><label for="b3">бренд b3</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="b4"><label for="b4">бренд b4</label><span>(5/5)</span></div>
+              </div>
             </div>
 
-            <h3>Цена</h3>
-            <div class="filters__price">
-              <div class="filters__multi-range">
-                <div class="filters__slides-control">
-                  <input type="range" id="from-slider-price" min="0" max="10" value="3">
-                  <input type="range" id="to-slider-price" min="0" max="10" value="7">
-                </div>
-                <div class="filters__form-control">
-                  <div class="filters__form-control-container">
-                    <div class="filters__form-control-container-price">min</div>
-                    <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+            <div class="filters__price-wrapper">
+              <h3>Цена</h3>
+              <div class="filters__price">
+                <div class="filters__multi-range">
+                  <div class="filters__slides-control">
+                    <input type="range" id="from-slider-price" min="0" max="10" value="3">
+                    <input type="range" id="to-slider-price" min="0" max="10" value="7">
                   </div>
-                  <div class="filters__form-control-container">
-                    <div class="filters__form-control-container-price">max</div>
-                    <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                  <div class="filters__form-control">
+                    <div class="filters__form-control-container">
+                      <div class="filters__form-control-container-price">min</div>
+                      <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+                    </div>
+                    <div class="filters__form-control-container">
+                      <div class="filters__form-control-container-price">max</div>
+                      <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <h3>В наличии</h3>
-            <div class="filters__stock">
-              <div class="filters__multi-range">
-                <div class="filters__slides-control">
-                  <input type="range" id="from-slider-stock" min="0" max="10" value="3">
-                  <input type="range" id="to-slider-stock" min="0" max="10" value="7">
-                </div>
-                <div class="filters__form-control">
-                  <div class="filters__form-control-container">
-                    <div class="filters__form-control-container-price">min</div>
-                    <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+            <div class="filters__stock-wrapper">
+              <h3>В наличии</h3>
+              <div class="filters__stock">
+                <div class="filters__multi-range">
+                  <div class="filters__slides-control">
+                    <input type="range" id="from-slider-stock" min="0" max="10" value="3">
+                    <input type="range" id="to-slider-stock" min="0" max="10" value="7">
                   </div>
-                  <div class="filters__form-control-container">
-                    <div class="filters__form-control-container-price">max</div>
-                    <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                  <div class="filters__form-control">
+                    <div class="filters__form-control-container">
+                      <div class="filters__form-control-container-price">min</div>
+                      <input class="filters__form-control-container-price-input" type="number" id="from-input" value="3" min="0" max="10">
+                    </div>
+                    <div class="filters__form-control-container">
+                      <div class="filters__form-control-container-price">max</div>
+                      <input class="filters__form-control-container-price-input" type="number" id="to-input" value="7" min="0" max="10">
+                    </div>
                   </div>
                 </div>
               </div>
