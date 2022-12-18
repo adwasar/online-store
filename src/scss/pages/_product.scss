@@ -1,0 +1,18 @@
+.product {
+  background-color: rosybrown;
+
+  .product__images {
+    background-color: rosybrown;
+
+    > div {
+      background-color: rosybrown;
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  .product__main-image {
+    width: 200px;
+    height: 200px;
+  }
+}
