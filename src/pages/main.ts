@@ -1,22 +1,22 @@
 import {Product} from "../types/product";
 
-const productsArea = document.querySelector('.products__items') as HTMLElement;
+const productsAria = document.querySelector('.products__items') as HTMLElement;
 
 export function renderMainPage(products: Product[]): void {
     for (let i = 0; i < products.length; i++) {
         // const productsItem = document.createElement('div');
         // productsItem.classList.add('products__item');
-        productsArea.innerHTML += `
+        productsAria.innerHTML += `
             <div class="products__item">
               <div class="products__item-wrapper">
                 <div class="products__item-text">
-                  <div class="products__item-title">Название</div>
-                  <div class="products__item-img">img</div>
+                  <div class="products__item-title">${products[i].name}</div>
+                  <img src=${products[i].images[0]} class="products__item-img"></img>
                   <div class="products__item-info">
-                    <p>Категория: some cat</p>
-                    <p>Производитель: some brand</p>
-                    <p>Цена: €174</p>
-                    <p>В наличии: 8шт</p>
+                    <p><b>Категория:</b> ${products[i].category}</p>
+                    <p><b>Производитель:</b> ${products[i].brand}</p>
+                    <p><b>Цена:</b> ${products[i].price} грн</p>
+                    <p><b>В наличии:</b> 8шт</p>
                   </div>
                 </div>
                 <div class="products__item-buttons">
