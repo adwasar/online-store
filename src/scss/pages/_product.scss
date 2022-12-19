@@ -1,18 +1,101 @@
-.product {
-  background-color: rosybrown;
+.product__container {
+  width: 100%;
 
-  .product__images {
-    background-color: rosybrown;
-
-    > div {
-      background-color: rosybrown;
-      width: 200px;
-      height: 200px;
-    }
+  .chain {
+    font-size: 2rem;
+    padding: 10px 0;
+    display: block;
+    text-align: center;
   }
 
-  .product__main-image {
-    width: 200px;
-    height: 200px;
+  .product {
+    border: black 1px solid;
+
+    .product__title {
+      text-align: center;
+      color: white;
+      background-color: black;
+      width: 100%;
+    }
+
+    .product__card-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .product__images {
+        padding: 10px;
+        width: 20%;
+        > div {
+          width: 100%;
+          height: 160px;
+          margin: 10px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          border: 1px black solid;
+        }
+      }
+
+      .product__main-image {
+        width: 40%;
+        height: 317px;
+        margin: 10px;
+        border: 1px black solid;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .product__details {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        & div {
+          text-align: center;
+          border: 1px solid black;
+          margin: 10px;
+          & p {
+            color: white;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+
+      .product__buy-options {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        p {
+          font-size: 2rem;
+          font-weight: bold;
+
+          &:after {
+            content: ' грн.';
+          }
+        }
+
+        button {
+          cursor: pointer;
+          margin: 10px;
+          width: 90%;
+          height: 30px;
+          border: black 1px solid;
+          color: black;
+          background: white;
+          transition: transform 0.5s ease;
+          &:hover {
+            transform: scale(110%);
+            border: 1px solid white;
+            background: black;
+            color: white;
+          }
+        }
+      }
+    }
   }
 }
