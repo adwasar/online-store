@@ -4,8 +4,6 @@ const productsAria = document.querySelector('.products__items') as HTMLElement;
 
 export function renderMainPage(products: Product[]): void {
     for (let i = 0; i < products.length; i++) {
-        // const productsItem = document.createElement('div');
-        // productsItem.classList.add('products__item');
         productsAria.innerHTML += `
             <div class="products__item">
               <div class="products__item-wrapper">
@@ -26,11 +24,5 @@ export function renderMainPage(products: Product[]): void {
               </div>
             </div>
         `
-        //create product card and add to mainPageDiv
-        //use this code
-        // const productCard = document.createElement('div');
-        // productCard.dataset.index = String(products[i].id);
-        // /////work with dom and css classes of product card
-        // mainPage.appendChild(productCard);
     }
 }
