@@ -1,7 +1,7 @@
 .products__item {
   border: solid 1px #000;
-  width: 215px;
-  height: 350px;
+  width: 291px;
+  height: min-content;
   margin: 5px;
 
   .products__item-wrapper {
@@ -15,7 +15,6 @@
     height: 100%;
       .products__item-title {
         text-align: center;
-        // margin: 5px;
         padding: 5px;
         margin-bottom: 5px;
         color: $font-color-white;
@@ -24,7 +23,7 @@
       .products__item-img {
         margin: 5px;
         margin-top: 0;
-        padding: 5px;
+        padding: 2px;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.2);
       }
