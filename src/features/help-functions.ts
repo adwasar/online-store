@@ -1,8 +1,8 @@
-import detailsData from '../assets/data';
+import {Product} from "../types/product";
 
 
-export const getProductChain = (productIndex: number): string => {
-    const {brand, name, category} = detailsData[productIndex];
+export const getProductChain = (product: Product): string => {
+    const {brand, name, category} = product;
 
     return `МАГАЗИН >> ${category} >> ${brand} >> ${name}`;
 }

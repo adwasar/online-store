@@ -19,15 +19,16 @@
         margin-bottom: 5px;
         color: $font-color-white;
         background-color: $back-dark;
+        height: 7.5rem;
       }
       .products__item-img {
-        margin: 5px;
-        margin-top: 0;
+        margin: 0 5px 5px;
         padding: 2px;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.2);
       }
       .products__item-info {
+        height: 9rem;
         padding: 5px;
         margin-top: auto;
         margin-left: 5px;
@@ -42,11 +43,18 @@
     .products__item-buttons {
       display: flex;
       padding: 5px;
+      height: 3rem;
       .products__buttons-in-cart,
       .products__buttons-details {
         background-color: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        text-align: center;
         padding: 5px;
         width: 100%;
+        box-sizing: border-box;
+        &:hover {
+          border: black 1px solid;
+        }
       }
 
       .products__buttons-in-cart {

@@ -1,14 +1,14 @@
 import {createElementWithClass, getProductChain} from "../features/help-functions";
 import {Product} from "../types/product";
 
-export function renderProductPage(productIndex: number, detailsData: Product[]): HTMLElement {
-    const {brand, name, images, description, price, quantity, category} = detailsData[productIndex];
+export function renderProductPage(product: Product): HTMLElement {
+    const {brand, name, images, description, price, quantity, category} = product;
 
     const productPage = createElementWithClass('product__container', 'div');
     const productCard = createElementWithClass('product');
 
     const productChain = createElementWithClass('chain', 'span');
-    productChain.innerText = getProductChain(productIndex);
+    productChain.innerText = getProductChain(product);
     productPage.appendChild(productChain);
 
     const productTitle = createElementWithClass('product__title');
