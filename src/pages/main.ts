@@ -1,11 +1,20 @@
 import {Product} from "../types/product";
+import {renderProductPage} from "./product";
 
-const productsAria = document.querySelector('.products__items') as HTMLElement;
 
-export function renderMainPage(products: Product[]): void {
+const clickOnProductCard = (product: Product) => {
+    (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(product));
+    window.history.pushState({},'',`/product/${product.id}`);
+}
+
+export function renderMainPage(products: Product[]): HTMLElement {
+    const mainPage = document.createElement('div');
     for (let i = 0; i < products.length; i++) {
-        productsAria.innerHTML += `
-            <div class="products__item">
+        const productCard = document.createElement('div');
+        productCard.classList.add('products__item');
+        productCard.onclick = () => {clickOnProductCard(products[i])};
+        productCard.innerHTML += `
               <div class="products__item-wrapper">
                 <div class="products__item-text">
                   <div class="products__item-title">${products[i].name}</div>
@@ -22,7 +31,8 @@ export function renderMainPage(products: Product[]): void {
                   <div class="products__buttons-details">Подробнее</div>
                 </div>
               </div>
-            </div>
-        `
+        `;
+        mainPage.appendChild(productCard);
     }
+    return mainPage;
 }
