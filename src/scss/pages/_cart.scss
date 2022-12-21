@@ -7,13 +7,16 @@
         width: 100%;
     }
 
+    .summary-wrapper {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
     .summary {
         display: flex;
         flex-direction: column;
-        margin-top: 10px;
-        margin-left: 10px;
         width: 300px;
-        height: 200px;
+        height: 164px;
         border: solid 1px black;
         justify-content: right;
         .summary__title {
@@ -57,4 +60,13 @@
             }
         }
     }
+}
+
+.summary__pay {
+    margin-top: 15px;
+    height: 37px;
+    width: 100%;
+    border: none;
+    font-weight: 700;
+    background-color: $green;
 }

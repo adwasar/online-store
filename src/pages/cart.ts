@@ -43,9 +43,13 @@ export function renderCartPage(): HTMLElement {
         cartItemSum.innerText = `${item.price} грн`
     })
 
+    const summaryWrapper = document.createElement('div');
+    summaryWrapper.classList.add('summary-wrapper');
+    cartPage.append(summaryWrapper);
+
     const summary = document.createElement('div');
     summary.classList.add('summary');
-    cartPage.append(summary);
+    summaryWrapper.append(summary);
 
 
     const summaryTitle = document.createElement('div');
@@ -80,6 +84,12 @@ export function renderCartPage(): HTMLElement {
     summaryTotal.classList.add('summary__total');
     summaryInfo.append(summaryTotal);
     summaryTotal.textContent = 'Всего: 999 грн';
+
+
+    const summaryPay = document.createElement('button');
+    summaryPay.classList.add('summary__pay');
+    summaryWrapper.append(summaryPay);
+    summaryPay.textContent = 'Оплата'
 
     return cartPage;
 }
