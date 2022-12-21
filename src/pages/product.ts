@@ -4,7 +4,7 @@ import {Product} from "../types/product";
 export function renderProductPage(productIndex: number, detailsData: Product[]): HTMLElement {
     const {brand, name, images, description, price, quantity, category} = detailsData[productIndex];
 
-    const productPage = document.createElement('div');
+    const productPage = createElementWithClass('product__container', 'div');
     const productCard = createElementWithClass('product');
 
     const productChain = createElementWithClass('chain', 'span');
@@ -17,6 +17,8 @@ export function renderProductPage(productIndex: number, detailsData: Product[]):
     productTitle.appendChild(title);
     productCard.appendChild(productTitle)
 
+    const productCardContainer = createElementWithClass('product__card-container');
+
     const productImages = createElementWithClass('product__images');
     const firstImage = document.createElement('div');
     const secondImage = document.createElement('div');
@@ -24,14 +26,23 @@ export function renderProductPage(productIndex: number, detailsData: Product[]):
     firstImage.style.backgroundImage = `url(${images[0]})`;
     secondImage.style.backgroundImage = `url(${images[1]})`;
     thirdImage.style.backgroundImage = `url(${images[2]})`;
+    firstImage.onclick = () => {
+        productMainImage.style.backgroundImage = `url(${images[0]})`;
+    }
+    secondImage.onclick = () => {
+        productMainImage.style.backgroundImage = `url(${images[1]})`;
+    }
+    thirdImage.onclick = () => {
+        productMainImage.style.backgroundImage = `url(${images[2]})`;
+    }
     productImages.appendChild(firstImage);
     productImages.appendChild(secondImage);
     productImages.appendChild(thirdImage);
-    productCard.appendChild(productImages);
+    productCardContainer.appendChild(productImages);
 
     const productMainImage = createElementWithClass('product__main-image');
     productMainImage.style.backgroundImage = `url(${images[0]})`;
-    productCard.appendChild(productMainImage);
+    productCardContainer.appendChild(productMainImage);
 
     const productDetails = createElementWithClass('product__details')
     const productDescription = document.createElement('div');
@@ -46,13 +57,14 @@ export function renderProductPage(productIndex: number, detailsData: Product[]):
     productDetails.appendChild(productBrand);
     productDetails.appendChild(productCategory);
     productDetails.appendChild(productQuantity);
-    productCard.appendChild(productDetails);
+    productCardContainer.appendChild(productDetails);
 
     const productBuyOptions = createElementWithClass('product__buy-options');
     productBuyOptions.innerHTML = `<p>${price}</p>`;
     productBuyOptions.innerHTML += '<button>Добавить в корзину</button>' + '<button>Купить сейчас</button>';
-    productCard.appendChild(productBuyOptions);
+    productCardContainer.appendChild(productBuyOptions);
 
+    productCard.appendChild(productCardContainer);
     productPage.appendChild(productCard);
     return productPage;
 }
