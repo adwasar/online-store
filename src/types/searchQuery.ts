@@ -1,6 +1,5 @@
 export class SearchQuery {
     constructor(searchString: string) {
-        //const searchPairs = searchString.substring(1).split('&');
         console.log(searchString);
         this.product = NaN;
         this.categories = [];

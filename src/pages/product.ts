@@ -5,6 +5,7 @@ export function renderProductPage(product: Product): HTMLElement {
     const {brand, name, images, description, price, quantity, category} = product;
 
     const productPage = createElementWithClass('product__container', 'div');
+    productPage.style.display = 'block';
     const productCard = createElementWithClass('product');
 
     const productChain = createElementWithClass('chain', 'span');

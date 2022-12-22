@@ -21,16 +21,6 @@ const detailsData = [
     },
     {
         id: 3,
-        name: 'Бендикс 2108, 2109, 21099, 2113, 2114, 2115 Авто-Электрика (привод стартера)_',
-        quantity: 12,
-        brand: 'Авто-Электрика',
-        price: 128.08,
-        description: 'Число зубцов 11',
-        category: 'Бендикс',
-        images: ['https://detali.zp.ua/uploads/photo/3d/6813/0001.jpg', 'https://detali.zp.ua/uploads/photo/3d/6813/0010.jpg', 'https://detali.zp.ua/uploads/photo/big/2018_07/2018_07_08_I7G_105704.jpg']
-    },
-    {
-        id: 3,
         name: 'Бендикс 2108, 2109, 21099, 2113, 2114, 2115 Авто-Электрика для БАТЭ',
         quantity: 10,
         brand: 'Авто-Электрика',
