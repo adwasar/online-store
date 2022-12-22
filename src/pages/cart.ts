@@ -9,7 +9,7 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
     cartItems.classList.add('cart-items');
     cartPage.append(cartItems);
 
-    data.forEach((item) => {
+    data.forEach((item, i) => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-items__item');
         cartItems.append(cartItem);
@@ -46,6 +46,15 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
         cartItemSum.classList.add('cart-items__item-sum');
         cartItemInfo.append(cartItemSum);
         cartItemSum.innerText = `${item.price} грн`
+
+        const cartItemTrash = document.createElement('div');
+        cartItemTrash.classList.add('cart-items__trash');
+        cartItem.append(cartItemTrash);
+        cartItemTrash.onclick = function():void {
+            data.splice(i, 1);
+            console.log(data);
+            renderCartPage(data);
+        }
     })
 
     const summaryWrapper = document.createElement('div');
