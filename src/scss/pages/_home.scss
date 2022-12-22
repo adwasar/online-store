@@ -28,6 +28,16 @@
       width: 100%;
       height: 100%;
       text-align: center;
+      transition: transform 0.1s ease;
+
+      &:hover {
+        cursor: pointer;
+        background-color: lightgrey;
+      }
+
+      &:active {
+        transform: scale(90%);
+      }
     }
     .filters__reset-filters {
       margin-right: 5px;
@@ -66,7 +76,7 @@
 
   .filters__price,
   .filters__stock {
-    overflow: scroll;
+    overflow: hidden;
     height: 100px;
     .filters__multi-range {
       display: flex;
