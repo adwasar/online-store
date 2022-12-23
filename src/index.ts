@@ -15,11 +15,31 @@ const minStockInput = document.querySelector('#from-slider-stock') as HTMLInputE
 const maxStockInput = document.querySelector('#to-slider-stock') as HTMLInputElement;
 const minStockDiv = document.querySelector('.filters__stock-min-value') as HTMLElement;
 const maxStockDiv = document.querySelector('.filters__stock-max-value') as HTMLElement;
+const releFilter = document.querySelector('#rele') as HTMLInputElement;
+const starterFilter = document.querySelector('#starter') as HTMLInputElement;
+const generatorFilter = document.querySelector('#generator') as HTMLInputElement;
+const bendiksFilter = document.querySelector('#bendiks') as HTMLInputElement;
+const lsaFilter = document.querySelector('#lsa') as HTMLInputElement;
+const vtnFilter = document.querySelector('#vtn') as HTMLInputElement;
+const vanssiFilter = document.querySelector('#vanssi') as HTMLInputElement;
+const autoFilter = document.querySelector('#auto') as HTMLInputElement;
+const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectElement;
+const filterTitle = document.querySelector('.products__search-bar') as HTMLInputElement;
 
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
 minStockInput.oninput = onFiltersValueChanged;
 maxStockInput.oninput = onFiltersValueChanged;
+releFilter.onchange = onFiltersValueChanged;
+starterFilter.onchange = onFiltersValueChanged;
+generatorFilter.onchange = onFiltersValueChanged;
+bendiksFilter.onchange = onFiltersValueChanged;
+lsaFilter.onchange = onFiltersValueChanged;
+vtnFilter.onchange = onFiltersValueChanged;
+vanssiFilter.onchange = onFiltersValueChanged;
+autoFilter.onchange = onFiltersValueChanged;
+sortInput.onchange = onFiltersValueChanged;
+filterTitle.onchange = onFiltersValueChanged;
 
 function onFiltersValueChanged(event: Event) {
     const eventTarget = (event.target as HTMLInputElement);
@@ -46,13 +66,77 @@ function onFiltersValueChanged(event: Event) {
             minStockDiv.innerHTML = eventTarget.value;
             break;
         case 'to-slider-stock':
-            if (Number(eventTarget.value) <= Number( minStockInput.value)) {
+            if (Number(eventTarget.value) <= Number(minStockInput.value)) {
                 eventTarget.value = String(Number(minStockInput.value) + 1);
                 break;
             }
             maxStockDiv.innerHTML = eventTarget.value;
             break;
     }
+    const isBrandChecked = lsaFilter.checked || vtnFilter.checked ||
+        vanssiFilter.checked || autoFilter.checked;
+    const isCategoryChecked = bendiksFilter.checked || releFilter.checked ||
+        starterFilter.checked || generatorFilter.checked;
+    const isPriceChanged = (minPriceInput.value !== minPriceInput.min) ||
+        (maxPriceInput.value !== maxPriceInput.max);
+    const isStockChanged = (minStockInput.value !== minStockInput.min) ||
+        (maxStockInput.value !== maxStockInput.max);
+
+    let filteredDetails = detailsData.map((el) => el);
+    let searchString = '/';
+
+    if (isBrandChecked || isCategoryChecked || isPriceChanged || isStockChanged ||
+        sortInput.selectedOptions.item(0)?.value !== String(-1) || filterTitle.value !== '') {
+
+        searchString += '?';
+
+        //filter by brand
+        if (isBrandChecked) {
+            filteredDetails = filteredDetails.filter((detail) =>
+                ((lsaFilter.checked && detail.brand === 'LSA') ||
+                    (autoFilter.checked && detail.brand === 'Авто-Электрика') ||
+                    (vtnFilter.checked && detail.brand === 'ВТН') ||
+                    (vanssiFilter.checked && detail.brand === 'Vanssi'))
+            );
+            const brandFilters: string[] = [];
+            lsaFilter.checked ? brandFilters.push('lsa') : '';
+            vtnFilter.checked ? brandFilters.push('vtn') : '';
+            autoFilter.checked ? brandFilters.push('auto') : '';
+            vanssiFilter.checked ? brandFilters.push('vanssi') : '';
+            searchString += 'brand=' + brandFilters.join('|');
+        }
+
+        //finish filter by brand
+
+        /*filter by category
+
+        be careful with searchString
+
+        finish filter by category*/
+
+        //filter by price
+        if (isPriceChanged) {
+            filteredDetails = filteredDetails.filter((el) => (
+                    el.price >= Number(minPriceInput.value) &&
+                    el.price <= Number(maxPriceInput.value)
+                )
+            )
+            searchString += (searchString.length === 2 ? '' : '&')
+                + `price=${minPriceInput.value}|${maxPriceInput.value}`;
+        }
+        //finish filter by price
+
+
+        /*
+        filter by stock
+         */
+    }
+
+    document.querySelector('.products__items')?.remove();
+    const productsPage = renderMainPage(filteredDetails);
+    productsPage.classList.add('products__items');
+    document.querySelector('.products')?.appendChild(productsPage);
+    window.history.pushState({}, '', searchString);
 }
 
 function initializeAllInputs() {
@@ -78,11 +162,22 @@ function initializeAllInputs() {
     maxPriceInput.value = String(maxPrice);
     minStockInput.value = String(minStock);
     maxStockInput.value = String(maxStock);
+
+    lsaFilter.checked = false;
+    vanssiFilter.checked = false;
+    autoFilter.checked = false;
+    vtnFilter.checked = false;
+
+    bendiksFilter.checked = false;
+    releFilter.checked = false;
+    starterFilter.checked = false;
+    generatorFilter.checked = false;
 }
 
 initializeAllInputs();
 
 function hideAllElements() {
+    initializeAllInputs();
     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
     document.querySelector('.products__items')?.remove();
     document.querySelector('.cart')?.remove();

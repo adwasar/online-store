@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +7,6 @@
   <title>online-store</title>
 </head>
 <body>
-
   <header class="header">
     <div class="wrapper">
       <div class="header__wrapper">
@@ -101,12 +100,11 @@
         <div class="products">
           <div class="products__filters">
             <select class="products__sort-bar">
-              <option value="price-UP">Sort by price UP"</option>
-              <option value="price-DOWN">Sort by price DOWN"</option>
-              <option value="rating-UP">Sort by rating UP</option>
-              <option value="rating-DOWN">Sort by rating DOWN</option>
-              <option value="discount-UP">Sort by discount UP</option>
-              <option value="discount-DOWN">Sort by discount DOWN</option>
+              <option value="-1">По умолчанию</option>
+              <option value="0">По цене по возрастанию</option>
+              <option value="1">По цене по спаданию</option>
+              <option value="2">По наличию по возрастанию</option>
+              <option value="3">По наличию по спаданию</option>
             </select>
             <!-- <div class="products__stat">found: 100</div> -->
             <input type="text" class="products__search-bar" placeholder="Поиск"></input>
