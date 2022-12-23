@@ -52,8 +52,9 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
         cartItem.append(cartItemTrash);
         cartItemTrash.onclick = function():void {
             data.splice(i, 1);
-            console.log(data);
-            renderCartPage(data);
+            cartPage.remove();
+            document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(data));
+            // console.log(data);
         }
     })
 

@@ -32,8 +32,8 @@ document.querySelector('.products')?.appendChild(productsPage);
 import { CartItem } from './types/cartItem';
 import { renderCartPage } from './pages/cart';
 
-const appStorePage = document.querySelector('.app-store-page') as HTMLElement;
-appStorePage.style.display = 'none';
+// const appStorePage = document.querySelector('.app-store-page') as HTMLElement;
+// appStorePage.style.display = 'none';
 
 const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
 
