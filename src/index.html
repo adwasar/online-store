@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,16 +7,15 @@
   <title>online-store</title>
 </head>
 <body>
-
   <header class="header">
     <div class="wrapper">
       <div class="header__wrapper">
         <div class="header__logo">
-          <img src="#" alt="logo">
+          <img height="150" src="#" alt="logo" id="logo">
         </div>
         <div class="header__cart-total">Корзина: 0.00 грн</div>
         <div class="header__cart">
-          <img src="#" alt="cart">
+          <img height="50" src="#" alt="cart" id="cart">
         </div>
       </div>
     </div>
@@ -35,20 +34,20 @@
             <div class="filters__category-wrapper">
               <h3>Категория</h3>
               <div class="filters__category">
-                <div class="filters__checkbox-line"><input type="checkbox" id="a1"><label for="a1">категория a1</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="a2"><label for="a2">категория a2</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="a3"><label for="a3">категория a3</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="a4"><label for="a4">категория a4</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="bendiks"><label for="bendiks">Бендикс</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="rele"><label for="rele">Щетки, реле регулятор</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="starter"><label for="starter">Стартер</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="generator"><label for="generator">Генератор</label><span>(5/5)</span></div>
               </div>
             </div>
 
             <div class="filters__brand-wrapper">
               <h3>Бренд</h3>
               <div class="filters__brand">
-                <div class="filters__checkbox-line"><input type="checkbox" id="b1"><label for="b1">бренд b1</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="b2"><label for="b2">бренд b2</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="b3"><label for="b3">бренд b3</label><span>(5/5)</span></div>
-                <div class="filters__checkbox-line"><input type="checkbox" id="b4"><label for="b4">бренд b4</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="auto"><label for="auto">Авто-Электрика</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="lsa"><label for="lsa">LSA</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="vanssi"><label for="vanssi">Vanssi</label><span>(5/5)</span></div>
+                <div class="filters__checkbox-line"><input type="checkbox" id="vtn"><label for="vtn">ВТН</label><span>(5/5)</span></div>
               </div>
             </div>
 
@@ -57,38 +56,37 @@
               <div class="filters__price">
                 <div class="filters__multi-range">
                   <div class="filters__slides-control">
-                    <input type="range" id="from-slider-price" min="0" max="10" value="3">
-                    <input type="range" id="to-slider-price" min="0" max="10" value="7">
+                    <input type="range" id="from-slider-price" min="0" step="0.01" max="10" value="0">
+                    <input type="range" id="to-slider-price" min="0" step="0.01" max="10" value="10">
                   </div>
                   <div class="filters__form-control">
                     <div class="filters__form-control-container">
-                      <div class="filters__form-control-container-price">min</div>
+                      <div class="filters__form-control-container-price">Минимум</div>
                       <div class="filters__price-min-value">3</div>
                     </div>
                     <div class="filters__form-control-container">
-                      <div class="filters__form-control-container-price">max</div>
+                      <div class="filters__form-control-container-price">Максимум</div>
                       <div class="filters__price-max-value">7</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="filters__stock-wrapper">
               <h3>В наличии</h3>
               <div class="filters__stock">
                 <div class="filters__multi-range">
                   <div class="filters__slides-control">
-                    <input type="range" id="from-slider-stock" min="0" max="10" value="3">
-                    <input type="range" id="to-slider-stock" min="0" max="10" value="7">
+                    <input type="range" id="from-slider-stock" min="0" step="1" max="10" value="0">
+                    <input type="range" id="to-slider-stock" min="0" step="1" max="10" value="10">
                   </div>
                   <div class="filters__form-control">
                     <div class="filters__form-control-container">
-                      <div class="filters__form-control-container-price">min</div>
+                      <div class="filters__form-control-container-price">Минимум</div>
                       <div class="filters__stock-min-value">3</div>
                     </div>
                     <div class="filters__form-control-container">
-                      <div class="filters__form-control-container-price">max</div>
+                      <div class="filters__form-control-container-price">Максимум</div>
                       <div class="filters__stock-max-value">7</div>
                     </div>
                   </div>
@@ -102,15 +100,15 @@
         <div class="products">
           <div class="products__filters">
             <select class="products__sort-bar">
-              <option value="price-UP">Sort by price UP"</option>
-              <option value="price-DOWN">Sort by price DOWN"</option>
-              <option value="rating-UP">Sort by rating UP</option>
-              <option value="rating-DOWN">Sort by rating DOWN</option>
-              <option value="discount-UP">Sort by discount UP</option>
-              <option value="discount-DOWN">Sort by discount DOWN</option>
+              <option value="-1">По умолчанию</option>
+              <option value="0">По цене по возрастанию</option>
+              <option value="1">По цене по спаданию</option>
+              <option value="2">По наличию по возрастанию</option>
+              <option value="3">По наличию по спаданию</option>
             </select>
             <!-- <div class="products__stat">found: 100</div> -->
             <input type="text" class="products__search-bar" placeholder="Поиск"></input>
+            <div class="product__container" style="display: none"></div>
           </div>
         </div>
       </div>

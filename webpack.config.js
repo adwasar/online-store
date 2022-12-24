@@ -17,16 +17,15 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
-    historyApiFallback: {
-      index: '/index.html',
-    }
+    historyApiFallback: true
   },
   entry: '/src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     filename: '[name].[contenthash].js',
-    assetModuleFilename: 'assets/[hash][ext]'
+    assetModuleFilename: 'assets/[hash][ext]',
+    publicPath: "/",
   },
   plugins: [
     new HtmlWebpackPlugin({

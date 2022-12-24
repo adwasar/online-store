@@ -1,5 +1,4 @@
 import { CartItem } from "../types/cartItem";
-// import detailsData from "../assets/data";
 
 export function renderCartPage(data: CartItem[]): HTMLElement {
     const cartPage = document.createElement('div');

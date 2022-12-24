@@ -4,6 +4,8 @@ import {renderProductPage} from "./product";
 
 const clickOnProductCard = (product: Product) => {
     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
+    document.querySelector('main')?.querySelector('.wrapper')?.querySelector('.product__container')?.remove();
+    document.querySelector('.products__items')?.remove();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(product));
     window.history.pushState({},'',`/product/${product.id}`);
 }
