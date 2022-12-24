@@ -6,6 +6,8 @@ import {renderProductPage} from './pages/product';
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
 import {renderCartPage} from "./pages/cart";
+import { renderErrorPage } from './pages/errorPage';
+import {CartItem} from "./types/cartItem";
 
 const minPriceInput = document.querySelector('#from-slider-price') as HTMLInputElement;
 const maxPriceInput = document.querySelector('#to-slider-price') as HTMLInputElement;
@@ -25,6 +27,8 @@ const vanssiFilter = document.querySelector('#vanssi') as HTMLInputElement;
 const autoFilter = document.querySelector('#auto') as HTMLInputElement;
 const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectElement;
 const filterTitle = document.querySelector('.products__search-bar') as HTMLInputElement;
+
+const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
 
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
@@ -182,6 +186,7 @@ function hideAllElements() {
     document.querySelector('.products__items')?.remove();
     document.querySelector('.cart')?.remove();
     document.querySelector('main')?.querySelector('.wrapper')?.querySelector('.product__container')?.remove();
+    document.querySelector('.error-page')?.remove();
 }
 
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
@@ -198,7 +203,7 @@ const cartElement = document.querySelector('#cart') as HTMLImageElement;
 cartElement.src = cart;
 cartElement.onclick = () => {
     hideAllElements();
-    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage());
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
     window.history.pushState({}, '', `/cart/`);
 }
 
@@ -215,7 +220,7 @@ if (!searchString && pathString === '/') {
     if (pathString !== '/') {
         if (RegExp(/\/cart\/?$/i).test(pathString)) {
             hideAllElements();
-            document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage());
+            document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
         } else {
             if (RegExp(/\/product\/\d*/i).test(pathString)) {
                 const productMatch = pathString.match(/\/product\/(\d*)/i) || [0, 1];
@@ -225,10 +230,12 @@ if (!searchString && pathString === '/') {
                     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
                     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(detailsData[productId - 1]));
                 } else {
-                    document.body.innerHTML = '<h1>404</h1>';
+                    hideAllElements();
+                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());
                 }
             } else {
-                document.body.innerHTML = '<h1>404</h1>';
+                hideAllElements();
+                document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());
             }
         }
     }
