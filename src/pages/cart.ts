@@ -1,9 +1,7 @@
-// import {Product} from "../types/product";
-import detailsData from "../assets/data";
+import { CartItem } from "../types/cartItem";
+// import detailsData from "../assets/data";
 
-const selectedProducts = [detailsData[0], detailsData[1], detailsData[2], detailsData[4], detailsData[8]];
-
-export function renderCartPage(): HTMLElement {
+export function renderCartPage(data: CartItem[]): HTMLElement {
     const cartPage = document.createElement('div');
     cartPage.classList.add('cart')
 
@@ -11,7 +9,7 @@ export function renderCartPage(): HTMLElement {
     cartItems.classList.add('cart-items');
     cartPage.append(cartItems);
 
-    selectedProducts.forEach((item) => {
+    data.forEach((item, i) => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-items__item');
         cartItems.append(cartItem);
@@ -32,15 +30,32 @@ export function renderCartPage(): HTMLElement {
         cartItemName.innerText = `${item.name}`;
 
         const cartItemAmount = document.createElement('div');
-        const cartItemAmountInput = '<input type="number" value="1" min="0" max="99">';
         cartItemAmount.classList.add('cart-items__item-amount');
         cartItemInfo.append(cartItemAmount);
-        cartItemAmount.innerHTML = `Количество: ${cartItemAmountInput} шт`;
+        const cartItemAmountInput = document.createElement('input');
+        cartItemAmountInput.classList.add('cart-items__item-amount-input');
+        cartItemAmountInput.setAttribute('type', 'number');
+        cartItemAmountInput.setAttribute('value', '1');
+        cartItemAmountInput.setAttribute('min', '0');
+        cartItemAmountInput.setAttribute('max', '99');
+        cartItemAmount.innerHTML = 'Количество: ';
+        cartItemAmount.append(cartItemAmountInput);
+        cartItemAmount.innerHTML+= ' шт';
 
         const cartItemSum = document.createElement('div');
         cartItemSum.classList.add('cart-items__item-sum');
         cartItemInfo.append(cartItemSum);
         cartItemSum.innerText = `${item.price} грн`
+
+        const cartItemTrash = document.createElement('div');
+        cartItemTrash.classList.add('cart-items__trash');
+        cartItem.append(cartItemTrash);
+        cartItemTrash.onclick = function():void {
+            data.splice(i, 1);
+            cartPage.remove();
+            document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(data));
+            // console.log(data);
+        }
     })
 
     const summaryWrapper = document.createElement('div');

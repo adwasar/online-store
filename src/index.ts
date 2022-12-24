@@ -28,3 +28,18 @@ document.querySelector('.products')?.appendChild(productsPage);
 //         }
 //         break;
 // }
+
+// import { CartItem } from './types/cartItem';
+// import { renderCartPage } from './pages/cart';
+import { renderErrorPage } from './pages/errorPage';
+
+const appStorePage = document.querySelector('.app-store-page') as HTMLElement;
+appStorePage.style.display = 'none';
+
+// const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
+
+// document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
+
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());
+    const errorPage = document.querySelector('error-page') as HTMLElement;
+    errorPage.style.display = 'none';
