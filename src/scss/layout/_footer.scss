@@ -12,8 +12,21 @@
         align-items: center;
         height: 56px;
         .footer__git-hub {
-            margin-top: 4px;
-            height: 46px;
+            display: flex;
+            .footer__git-hub-img {
+                height: 46px;
+                margin-top: 4px;
+            }
+
+            .footer__git-hub-links {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                a {
+                    text-decoration: none;
+                    color: $font-color-white;
+                }
+            }
         }
 
         .footer__rrs {
