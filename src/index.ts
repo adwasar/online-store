@@ -112,11 +112,23 @@ function onFiltersValueChanged(event: Event) {
 
         //finish filter by brand
 
-        /*filter by category
-
-        be careful with searchString
-
-        finish filter by category*/
+        // filter by category
+        if(isCategoryChecked) {
+            filteredDetails = filteredDetails.filter((detail) =>
+                ((bendiksFilter.checked && detail.category === 'Бендикс') ||
+                    (releFilter.checked && detail.category === 'Щетки генератора, регуляторы') ||
+                    (starterFilter.checked && detail.category === 'Стартера') ||
+                    (generatorFilter.checked && detail.category === 'Генераторы')
+                )
+            );
+            const categoryFilters: string[] = [];
+            bendiksFilter.checked ? categoryFilters.push('bendiks') : '';
+            releFilter.checked ? categoryFilters.push('rele') : '';
+            starterFilter.checked ? categoryFilters.push('starter') : '';
+            generatorFilter.checked ? categoryFilters.push('generator') : '';
+            searchString += 'category=' + categoryFilters.join('|');
+        }
+        // finish filter by category
 
         //filter by price
         if (isPriceChanged) {
@@ -131,9 +143,16 @@ function onFiltersValueChanged(event: Event) {
         //finish filter by price
 
 
-        /*
-        filter by stock
-         */
+        // filter by stock
+        if (isStockChanged) {
+            filteredDetails = filteredDetails.filter((el) => (
+                    el.quantity >= Number(minStockInput.value) &&
+                    el.quantity <= Number(minStockInput.value)
+            )
+        )
+        searchString += (searchString.length === 2 ? '' : '&')
+                + `stock=${minStockInput.value}|${maxStockInput.value}`;
+        }
     }
 
     document.querySelector('.products__items')?.remove();

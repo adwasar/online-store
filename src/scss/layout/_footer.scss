@@ -26,6 +26,9 @@
                     text-decoration: none;
                     color: $font-color-white;
                 }
+                :hover {
+                    color: rgb(160, 160, 160);
+                }
             }
         }
 
