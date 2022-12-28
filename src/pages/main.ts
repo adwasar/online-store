@@ -7,7 +7,7 @@ const clickOnProductCard = (product: Product) => {
     document.querySelector('main')?.querySelector('.wrapper')?.querySelector('.product__container')?.remove();
     document.querySelector('.products__items')?.remove();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(product));
-    window.history.pushState({},'',`/product/${product.id}`);
+    window.history.pushState({}, '', `/product/${product.id}`);
 }
 
 export function renderMainPage(products: Product[]): HTMLElement {
@@ -15,7 +15,9 @@ export function renderMainPage(products: Product[]): HTMLElement {
     for (let i = 0; i < products.length; i++) {
         const productCard = document.createElement('div');
         productCard.classList.add('products__item');
-        productCard.onclick = () => {clickOnProductCard(products[i])};
+        productCard.onclick = () => {
+            clickOnProductCard(products[i])
+        };
         productCard.innerHTML += `
               <div class="products__item-wrapper">
                 <div class="products__item-text">
@@ -24,8 +26,8 @@ export function renderMainPage(products: Product[]): HTMLElement {
                   <div class="products__item-info">
                     <p><b>Категория:</b> ${products[i].category}</p>
                     <p><b>Производитель:</b> ${products[i].brand}</p>
-                    <p><b>Цена:</b> ${products[i].price} грн</p>
-                    <p><b>В наличии:</b> 8шт</p>
+                    <p><b>В наличии:</b> ${products[i].quantity} шт.</p>
+                    <h2><p><b>Цена:</b> ${products[i].price} грн.</p></h2>
                   </div>
                 </div>
                 <div class="products__item-buttons">

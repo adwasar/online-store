@@ -5,9 +5,18 @@ import {renderMainPage} from './pages/main';
 import {renderProductPage} from './pages/product';
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
+import favicon from './assets/img/icons/favicon.png';
 import {renderCartPage} from "./pages/cart";
 import { renderErrorPage } from './pages/errorPage';
 import {CartItem} from "./types/cartItem";
+
+let link: HTMLLinkElement = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+link.href = favicon;
 
 const minPriceInput = document.querySelector('#from-slider-price') as HTMLInputElement;
 const maxPriceInput = document.querySelector('#to-slider-price') as HTMLInputElement;
@@ -26,9 +35,31 @@ const vtnFilter = document.querySelector('#vtn') as HTMLInputElement;
 const vanssiFilter = document.querySelector('#vanssi') as HTMLInputElement;
 const autoFilter = document.querySelector('#auto') as HTMLInputElement;
 const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectElement;
-const filterTitle = document.querySelector('.products__search-bar') as HTMLInputElement;
-
+const filterName = document.querySelector('.products__search-bar') as HTMLInputElement;
+const resetButton = document.querySelector('.filters__reset-filters') as HTMLElement;
+const copyButton = document.querySelector('.filters__copy-link') as HTMLElement;
+const logoElement = document.querySelector('#logo') as HTMLImageElement;
+const cartElement = document.querySelector('#cart') as HTMLImageElement;
 const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
+
+const onLogoClicked = () => {
+    hideAllElements();
+    (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
+    const productsPage = renderMainPage(detailsData);
+    productsPage.classList.add('products__items');
+    document.querySelector('.products')?.appendChild(productsPage);
+    window.history.pushState({}, '', `/`);
+}
+
+const onCartClicked = () => {
+    hideAllElements();
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
+    window.history.pushState({}, '', `/cart/`);
+}
+
+const onCopyButtonClicked = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => alert('Адрес скопирован в буфер обмена. Нажмите Ctrl+V в месте, где хотите его вставить.'));
+}
 
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
@@ -43,7 +74,15 @@ vtnFilter.onchange = onFiltersValueChanged;
 vanssiFilter.onchange = onFiltersValueChanged;
 autoFilter.onchange = onFiltersValueChanged;
 sortInput.onchange = onFiltersValueChanged;
-filterTitle.onchange = onFiltersValueChanged;
+filterName.oninput = onFiltersValueChanged;
+resetButton.onclick = onLogoClicked;
+copyButton.onclick = onCopyButtonClicked;
+
+logoElement.src = logo;
+logoElement.onclick = onLogoClicked;
+
+cartElement.src = cart;
+cartElement.onclick = onCartClicked;
 
 function onFiltersValueChanged(event: Event) {
     const eventTarget = (event.target as HTMLInputElement);
@@ -85,12 +124,14 @@ function onFiltersValueChanged(event: Event) {
         (maxPriceInput.value !== maxPriceInput.max);
     const isStockChanged = (minStockInput.value !== minStockInput.min) ||
         (maxStockInput.value !== maxStockInput.max);
+    const isNameFiltered = filterName.value !== '';
+    const isSortingPicked = sortInput.selectedOptions.item(0)?.value !== String(-1);
 
     let filteredDetails = detailsData.map((el) => el);
     let searchString = '/';
 
-    if (isBrandChecked || isCategoryChecked || isPriceChanged || isStockChanged ||
-        sortInput.selectedOptions.item(0)?.value !== String(-1) || filterTitle.value !== '') {
+    if (isBrandChecked || isCategoryChecked || isPriceChanged ||
+        isStockChanged || isSortingPicked || isNameFiltered) {
 
         searchString += '?';
 
@@ -126,7 +167,7 @@ function onFiltersValueChanged(event: Event) {
             releFilter.checked ? categoryFilters.push('rele') : '';
             starterFilter.checked ? categoryFilters.push('starter') : '';
             generatorFilter.checked ? categoryFilters.push('generator') : '';
-            searchString += 'category=' + categoryFilters.join('|');
+            searchString += (searchString.length === 2 ? '' : '&') + 'category=' + categoryFilters.join('|');
         }
         // finish filter by category
 
@@ -147,11 +188,44 @@ function onFiltersValueChanged(event: Event) {
         if (isStockChanged) {
             filteredDetails = filteredDetails.filter((el) => (
                     el.quantity >= Number(minStockInput.value) &&
-                    el.quantity <= Number(minStockInput.value)
+                    el.quantity <= Number(maxStockInput.value)
             )
         )
         searchString += (searchString.length === 2 ? '' : '&')
                 + `stock=${minStockInput.value}|${maxStockInput.value}`;
+        }
+    }
+
+    //filter by name
+    if (isNameFiltered) {
+        filteredDetails = filteredDetails.filter((el) => el.name.toUpperCase().includes(filterName.value.toUpperCase()));
+        searchString += (searchString.length === 2 ? '' : '&')
+            + `name=${filterName.value}`;
+    }
+    //finish filter by name
+
+    if (isSortingPicked) {
+        switch (Number(sortInput.selectedOptions.item(0)?.value)) {
+            case 0:
+                filteredDetails = filteredDetails.sort((el1, el2) => el1.price - el2.price);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=PRICE-ASC`;
+                break;
+            case 1:
+                filteredDetails = filteredDetails.sort((el1, el2) => el2.price - el1.price);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=PRICE-DESC`;
+                break;
+            case 2:
+                filteredDetails = filteredDetails.sort((el1, el2) => el1.quantity - el2.quantity);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=STOCK-ASC`;
+                break;
+            case 3:
+                filteredDetails = filteredDetails.sort((el1, el2) => el2.quantity - el1.quantity);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=STOCK-DESC`;
+                break;
         }
     }
 
@@ -195,6 +269,9 @@ function initializeAllInputs() {
     releFilter.checked = false;
     starterFilter.checked = false;
     generatorFilter.checked = false;
+
+    sortInput.selectedIndex = 0;
+    filterName.value = '';
 }
 
 initializeAllInputs();
@@ -206,24 +283,6 @@ function hideAllElements() {
     document.querySelector('.cart')?.remove();
     document.querySelector('main')?.querySelector('.wrapper')?.querySelector('.product__container')?.remove();
     document.querySelector('.error-page')?.remove();
-}
-
-const logoElement = document.querySelector('#logo') as HTMLImageElement;
-logoElement.src = logo;
-logoElement.onclick = () => {
-    hideAllElements();
-    (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
-    const productsPage = renderMainPage(detailsData);
-    productsPage.classList.add('products__items');
-    document.querySelector('.products')?.appendChild(productsPage);
-    window.history.pushState({}, '', `/`);
-}
-const cartElement = document.querySelector('#cart') as HTMLImageElement;
-cartElement.src = cart;
-cartElement.onclick = () => {
-    hideAllElements();
-    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
-    window.history.pushState({}, '', `/cart/`);
 }
 
 const searchString = window.location.search;
