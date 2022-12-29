@@ -1,0 +1,85 @@
+.modal {
+    input {
+        padding: 0 5px;
+        margin: 0;
+        border: none;
+        width: 170px;
+    }
+
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    .modal__container {
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 330px;
+        background-color: #fff;
+        border: solid 3px black;
+        .modal__content {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            height: 100%;
+            box-sizing: border-box;
+            .modal__personal-details {
+                display: flex;
+                flex-direction: column;
+                .modal__personal-details-title {
+                    font-size: 1.6rem;
+                    padding: 5px;
+                    margin: 5px;
+                }
+
+                .modal__name,
+                .modal__number-phone,
+                .modal__address,
+                .modal__e-mail {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px;
+                    margin: 5px;
+                    background-color: $back-dark;
+                    color: $font-color-white;
+                }
+            }
+
+            .modal__credit-card {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .modal__credit-card-title {
+                    font-size: 1.6rem;
+                    padding: 5px;
+                    margin: 5px;
+                }
+
+                .modal__credit-card-num,
+                .modal__credit-card-valid,
+                .modal__credit-card-cvv {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px;
+                    margin: 5px;
+                    background-color: $back-dark;
+                    color: $font-color-white;
+                }
+
+            }
+            .modal__submit {
+                margin: 10px auto;
+                font-size: 1.6rem;
+                height: 37px;
+                width: 200px;
+                border: none;
+                background-color: $green;
+                cursor: pointer;
+            }
+        }
+    }
+}

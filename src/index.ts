@@ -1,13 +1,14 @@
 import './index.html';
 import './scss/main.scss';
 import detailsData from './assets/data';
-import {renderMainPage} from './pages/main';
-import {renderProductPage} from './pages/product';
+import {CartItem} from "./types/cartItem";
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
+import {renderMainPage} from './pages/main';
+import {renderProductPage} from './pages/product';
 import {renderCartPage} from "./pages/cart";
-import { renderErrorPage } from './pages/errorPage';
-import {CartItem} from "./types/cartItem";
+import {renderErrorPage} from './pages/errorPage';
+import {renderModalWindowPage} from './pages/modalWindow';
 
 const minPriceInput = document.querySelector('#from-slider-price') as HTMLInputElement;
 const maxPriceInput = document.querySelector('#to-slider-price') as HTMLInputElement;
@@ -109,10 +110,9 @@ function onFiltersValueChanged(event: Event) {
             vanssiFilter.checked ? brandFilters.push('vanssi') : '';
             searchString += 'brand=' + brandFilters.join('|');
         }
-
         //finish filter by brand
 
-        // filter by category
+        //filter by category
         if(isCategoryChecked) {
             filteredDetails = filteredDetails.filter((detail) =>
                 ((bendiksFilter.checked && detail.category === 'Бендикс') ||
@@ -128,7 +128,7 @@ function onFiltersValueChanged(event: Event) {
             generatorFilter.checked ? categoryFilters.push('generator') : '';
             searchString += 'category=' + categoryFilters.join('|');
         }
-        // finish filter by category
+        //finish filter by category
 
         //filter by price
         if (isPriceChanged) {
@@ -143,7 +143,7 @@ function onFiltersValueChanged(event: Event) {
         //finish filter by price
 
 
-        // filter by stock
+        //filter by stock
         if (isStockChanged) {
             filteredDetails = filteredDetails.filter((el) => (
                     el.quantity >= Number(minStockInput.value) &&
@@ -153,6 +153,7 @@ function onFiltersValueChanged(event: Event) {
         searchString += (searchString.length === 2 ? '' : '&')
                 + `stock=${minStockInput.value}|${maxStockInput.value}`;
         }
+        //filter by stock
     }
 
     document.querySelector('.products__items')?.remove();
@@ -259,3 +260,6 @@ if (!searchString && pathString === '/') {
         }
     }
 }
+
+// (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
+document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
