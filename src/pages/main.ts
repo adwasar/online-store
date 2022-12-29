@@ -4,17 +4,18 @@ import {CartProducts} from "../types/cartProducts";
 import {setResultFields} from "./cart";
 
 
-const clickOnDetailsButton = (product: Product) => {
+const clickOnDetailsButton = (product: Product, cartItems: CartProducts) => {
     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
     document.querySelector('main')?.querySelector('.wrapper')?.querySelector('.product__container')?.remove();
     document.querySelector('.products__items')?.remove();
-    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(product));
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(product, cartItems));
     window.history.pushState({}, '', `/product/${product.id}`);
 }
 
 const clickOnAddToCardButton = (product: Product, cartItems: CartProducts) => {
     cartItems.addProduct(product);
     setResultFields(cartItems);
+    //todo add control on stock limit products
 }
 
 export function renderMainPage(products: Product[], cartItems: CartProducts): HTMLElement {
@@ -49,7 +50,7 @@ export function renderMainPage(products: Product[], cartItems: CartProducts): HT
         productCard.querySelector('.products__item-buttons')?.appendChild(toCartButton);
         productCard.querySelector('.products__item-buttons')?.appendChild(detailsButton);
 
-        detailsButton.onclick = () => clickOnDetailsButton(products[i]);
+        detailsButton.onclick = () => clickOnDetailsButton(products[i], cartItems);
         toCartButton.onclick = () => clickOnAddToCardButton(products[i], cartItems);
 
         mainPage.appendChild(productCard);

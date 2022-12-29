@@ -1,7 +1,14 @@
 import {createElementWithClass, getProductChain} from "../features/help-functions";
 import {Product} from "../types/product";
+import {setResultFields} from "./cart";
+import {CartProducts} from "../types/cartProducts";
 
-export function renderProductPage(product: Product): HTMLElement {
+const onAddToCartClicked = (product: Product, cartItems: CartProducts) => {
+    cartItems.addProduct(product);
+    setResultFields(cartItems);
+}
+
+export function renderProductPage(product: Product, cartItems: CartProducts): HTMLElement {
     const {brand, name, images, description, price, quantity, category} = product;
 
     const productPage = createElementWithClass('product__container', 'div');
@@ -62,7 +69,13 @@ export function renderProductPage(product: Product): HTMLElement {
 
     const productBuyOptions = createElementWithClass('product__buy-options');
     productBuyOptions.innerHTML = `<p>${price}</p>`;
-    productBuyOptions.innerHTML += '<button>Добавить в корзину</button>' + '<button>Купить сейчас</button>';
+    const addToCartButton = document.createElement('button');
+    const buyNowButton = document.createElement('button');
+    addToCartButton.innerHTML = 'Добавить в корзину';
+    buyNowButton.innerHTML = 'Купить сейчас';
+    addToCartButton.onclick = () => onAddToCartClicked(product, cartItems);
+    productBuyOptions.appendChild(addToCartButton);
+    productBuyOptions.appendChild(buyNowButton);
     productCardContainer.appendChild(productBuyOptions);
 
     productCard.appendChild(productCardContainer);

@@ -43,13 +43,6 @@ const copyButton = document.querySelector('.filters__copy-link') as HTMLElement;
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
 const cartElement = document.querySelector('#cart') as HTMLImageElement;
 const cartItems = new CartProducts();
-cartItems.addProduct(detailsData[0]);
-cartItems.addProduct(detailsData[0]);
-cartItems.addProduct(detailsData[0]);
-cartItems.addProduct(detailsData[4]);
-cartItems.addProduct(detailsData[5]);
-cartItems.addProduct(detailsData[9]);
-cartItems.addProduct(detailsData[34]);
 
 const onLogoClicked = () => {
     hideAllElements();
@@ -322,7 +315,7 @@ if (!searchString && pathString === '/') {
                 console.log(`productId = ${productId}`);
                 if (productId >= 1 && productId < detailsData.length + 1) {
                     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
-                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(detailsData[productId - 1]));
+                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(detailsData[productId - 1], cartItems));
                 } else {
                     hideAllElements();
                     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());

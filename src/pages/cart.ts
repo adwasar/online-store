@@ -1,18 +1,19 @@
 import {CartProducts} from "../types/cartProducts";
+import {getNum} from "../features/help-functions";
+
 export const setResultFields = (data: CartProducts) => {
     const headerCart = document.querySelector('.header__cart-total') as HTMLElement;
-    const summaryAmount = document.createElement('div');
-    const summaryTotal = document.createElement('div');
+    const summaryAmount = document.querySelector('.summary__amount') as HTMLElement;
+    const summaryTotal = document.querySelector('.summary__total') as HTMLElement;
 
-    const getNum = (num: number) => (Math.round(num * 100) / 100).toFixed(2);
     if (headerCart) {
         headerCart.innerText = `Корзина: ${getNum(data.getTotalPrice())} грн. Количество товаров: ${data.getTotalQuantity()}`;
     }
     if (summaryAmount) {
-        summaryAmount.innerText = `Товаров: ${data.getTotalQuantity()} шт.`;
+        summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;
     }
     if (summaryTotal) {
-        summaryTotal.innerText = `Всего: ${getNum(data.getTotalPrice())} грн.`;
+        summaryTotal.innerHTML = `Всего: ${getNum(data.getTotalPrice())} грн.`;
     }
 }
 
@@ -112,7 +113,7 @@ export function renderCartPage(data: CartProducts): HTMLElement {
     const summaryAmount = document.createElement('div');
     summaryAmount.classList.add('summary__amount');
     summaryInfo.append(summaryAmount);
-    summaryAmount.textContent = `Товаров: 1 шт`
+    summaryAmount.textContent = `Товаров: 0 шт`
 
     const summaryDiscount = document.createElement('div');
     summaryDiscount.classList.add('summary__discount');
@@ -131,7 +132,7 @@ export function renderCartPage(data: CartProducts): HTMLElement {
     const summaryTotal = document.createElement('div');
     summaryTotal.classList.add('summary__total');
     summaryInfo.append(summaryTotal);
-    summaryTotal.textContent = 'Всего: 999 грн';
+    summaryTotal.textContent = 'Всего: 0 грн.';
 
 
     const summaryPay = document.createElement('button');
@@ -139,6 +140,12 @@ export function renderCartPage(data: CartProducts): HTMLElement {
     summaryWrapper.append(summaryPay);
     summaryPay.textContent = 'Оплата';
 
-    setResultFields(data);
+    if (summaryAmount) {
+        summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;
+    }
+    if (summaryTotal) {
+        summaryTotal.innerHTML = `Всего: ${getNum(data.getTotalPrice())} грн.`;
+    }
+
     return cartPage;
 }
