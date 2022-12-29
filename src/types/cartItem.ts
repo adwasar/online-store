@@ -1,15 +1,19 @@
 import { Product } from './product';
 
 export class CartItem {
-    data: Product;
-    images: string[];
-    name: string;
-    price: number;
-
-    constructor (data: Product) {
-        this.data = data;
-        this.images = data.images;
-        this.name = data.name;
-        this.price = data.price;
+    public readonly product: Product;
+    private quantity: number;
+    constructor (product: Product, quantity: number = 1) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+    public addProduct() {
+        this.quantity++;
+    }
+    public removeProduct() {
+        this.quantity--;
+    }
+    public getQuantity() {
+        return this.quantity;
     }
 }

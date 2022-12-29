@@ -8,9 +8,10 @@ import cart from './assets/img/cart.png';
 import favicon from './assets/img/icons/favicon.png';
 import {renderCartPage} from "./pages/cart";
 import {renderErrorPage} from './pages/errorPage';
-import {CartItem} from "./types/cartItem";
 import {SearchQuery} from "./types/searchQuery";
-
+import {CartProducts} from "./types/cartProducts";
+//todo add handle browser buttons
+//todo add little/big button
 let link: HTMLLinkElement = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
 if (!link) {
     link = document.createElement('link');
@@ -41,12 +42,19 @@ const resetButton = document.querySelector('.filters__reset-filters') as HTMLEle
 const copyButton = document.querySelector('.filters__copy-link') as HTMLElement;
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
 const cartElement = document.querySelector('#cart') as HTMLImageElement;
-const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
+const cartItems = new CartProducts();
+cartItems.addProduct(detailsData[0]);
+cartItems.addProduct(detailsData[0]);
+cartItems.addProduct(detailsData[0]);
+cartItems.addProduct(detailsData[4]);
+cartItems.addProduct(detailsData[5]);
+cartItems.addProduct(detailsData[9]);
+cartItems.addProduct(detailsData[34]);
 
 const onLogoClicked = () => {
     hideAllElements();
     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
-    const productsPage = renderMainPage(detailsData);
+    const productsPage = renderMainPage(detailsData, cartItems);
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', `/`);
@@ -59,7 +67,14 @@ const onCartClicked = () => {
 }
 
 const onCopyButtonClicked = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => alert('Адрес скопирован в буфер обмена. Нажмите Ctrl+V в месте, где хотите его вставить.'));
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        copyButton.innerText = 'Скопировано';
+        copyButton.style.color = 'darkgreen';
+        setTimeout(() => {
+            copyButton.innerText = 'Копировать';
+            copyButton.style.color = 'black';
+        }, 500);
+    });
 }
 
 minPriceInput.oninput = onFiltersValueChanged;
@@ -231,7 +246,7 @@ function onFiltersValueChanged(event: Event) {
     }
 
     document.querySelector('.products__items')?.remove();
-    const productsPage = renderMainPage(filteredDetails);
+    const productsPage = renderMainPage(filteredDetails, cartItems);
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
@@ -292,7 +307,7 @@ const pathString = window.location.pathname;
 console.log(`pathString  = ${pathString}, searchString = ${searchString}`);
 
 if (!searchString && pathString === '/') {
-    const productsPage = renderMainPage(detailsData);
+    const productsPage = renderMainPage(detailsData, cartItems);
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
 } else {
