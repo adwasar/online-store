@@ -1,0 +1,44 @@
+.cart-items__item {
+    display: flex;
+    margin: 10px 0px;
+    // max-width: 800px;
+    height: 100px;
+    border: solid 2px black;
+    .cart-items__item-img {
+        margin: 5px;
+        border: solid 1px black;
+    }
+    .cart-items__item-info {
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .cart-items__item-name {
+            font-weight: 700;
+        }
+
+        .cart-items__item-sum {
+            margin-top: auto;
+        }
+    }
+
+    .cart-items__trash {
+        margin-left: 10px;
+        margin-right: 5px;
+        margin-top: auto;
+        width: 38px;
+        height: 35px;
+        background: url(../assets/img/icons/icons8-trash-can-30.png) no-repeat;
+    }
+}
+
+// .cart-items__item::after {
+//     content: '';
+//     margin-top: auto;
+//     margin-right: 5px;
+//     width: 38px;
+//     height: 35px;
+//     background: url(../assets/img/icons/icons8-trash-can-30.png) no-repeat;
+//     cursor: pointer;
+// }
