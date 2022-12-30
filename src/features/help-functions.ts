@@ -14,3 +14,5 @@ export const createElementWithClass = (className: string = '', elementName: stri
     }
     return element;
 }
+
+export const getNum = (num: number) => (Math.round(num * 100) / 100).toFixed(2);

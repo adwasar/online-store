@@ -5,9 +5,20 @@ import {renderMainPage} from './pages/main';
 import {renderProductPage} from './pages/product';
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
+import favicon from './assets/img/icons/favicon.png';
 import {renderCartPage} from "./pages/cart";
-import { renderErrorPage } from './pages/errorPage';
-import {CartItem} from "./types/cartItem";
+import {renderErrorPage} from './pages/errorPage';
+import {SearchQuery} from "./types/searchQuery";
+import {CartProducts} from "./types/cartProducts";
+//todo add handle browser buttons
+//todo add little/big button
+let link: HTMLLinkElement = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+link.href = favicon;
 
 const minPriceInput = document.querySelector('#from-slider-price') as HTMLInputElement;
 const maxPriceInput = document.querySelector('#to-slider-price') as HTMLInputElement;
@@ -26,9 +37,38 @@ const vtnFilter = document.querySelector('#vtn') as HTMLInputElement;
 const vanssiFilter = document.querySelector('#vanssi') as HTMLInputElement;
 const autoFilter = document.querySelector('#auto') as HTMLInputElement;
 const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectElement;
-const filterTitle = document.querySelector('.products__search-bar') as HTMLInputElement;
+const filterName = document.querySelector('.products__search-bar') as HTMLInputElement;
+const resetButton = document.querySelector('.filters__reset-filters') as HTMLElement;
+const copyButton = document.querySelector('.filters__copy-link') as HTMLElement;
+const logoElement = document.querySelector('#logo') as HTMLImageElement;
+const cartElement = document.querySelector('#cart') as HTMLImageElement;
+const cartItems = new CartProducts();
 
-const cartItems = [new CartItem(detailsData[0]), new CartItem(detailsData[1]), new CartItem(detailsData[3]), new CartItem(detailsData[5]), new CartItem(detailsData[7]), new CartItem(detailsData[12])];
+const onLogoClicked = () => {
+    hideAllElements();
+    (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
+    const productsPage = renderMainPage(detailsData, cartItems);
+    productsPage.classList.add('products__items');
+    document.querySelector('.products')?.appendChild(productsPage);
+    window.history.pushState({}, '', `/`);
+}
+
+const onCartClicked = () => {
+    hideAllElements();
+    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
+    window.history.pushState({}, '', `/cart/`);
+}
+
+const onCopyButtonClicked = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        copyButton.innerText = 'Скопировано';
+        copyButton.style.color = 'darkgreen';
+        setTimeout(() => {
+            copyButton.innerText = 'Копировать';
+            copyButton.style.color = 'black';
+        }, 500);
+    });
+}
 
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
@@ -43,11 +83,19 @@ vtnFilter.onchange = onFiltersValueChanged;
 vanssiFilter.onchange = onFiltersValueChanged;
 autoFilter.onchange = onFiltersValueChanged;
 sortInput.onchange = onFiltersValueChanged;
-filterTitle.onchange = onFiltersValueChanged;
+filterName.oninput = onFiltersValueChanged;
+resetButton.onclick = onLogoClicked;
+copyButton.onclick = onCopyButtonClicked;
+
+logoElement.src = logo;
+logoElement.onclick = onLogoClicked;
+
+cartElement.src = cart;
+cartElement.onclick = onCartClicked;
 
 function onFiltersValueChanged(event: Event) {
     const eventTarget = (event.target as HTMLInputElement);
-    switch (eventTarget.id) {
+    switch (eventTarget?.id) {
         case 'from-slider-price':
             if (Number(eventTarget.value) >= Number(maxPriceInput.value)) {
                 eventTarget.value = String(Number(maxPriceInput.value) - 1);
@@ -85,12 +133,14 @@ function onFiltersValueChanged(event: Event) {
         (maxPriceInput.value !== maxPriceInput.max);
     const isStockChanged = (minStockInput.value !== minStockInput.min) ||
         (maxStockInput.value !== maxStockInput.max);
+    const isNameFiltered = filterName.value !== '';
+    const isSortingPicked = sortInput.selectedOptions.item(0)?.value !== String(-1);
 
     let filteredDetails = detailsData.map((el) => el);
     let searchString = '/';
 
-    if (isBrandChecked || isCategoryChecked || isPriceChanged || isStockChanged ||
-        sortInput.selectedOptions.item(0)?.value !== String(-1) || filterTitle.value !== '') {
+    if (isBrandChecked || isCategoryChecked || isPriceChanged ||
+        isStockChanged || isSortingPicked || isNameFiltered) {
 
         searchString += '?';
 
@@ -113,7 +163,7 @@ function onFiltersValueChanged(event: Event) {
         //finish filter by brand
 
         // filter by category
-        if(isCategoryChecked) {
+        if (isCategoryChecked) {
             filteredDetails = filteredDetails.filter((detail) =>
                 ((bendiksFilter.checked && detail.category === 'Бендикс') ||
                     (releFilter.checked && detail.category === 'Щетки генератора, регуляторы') ||
@@ -126,7 +176,7 @@ function onFiltersValueChanged(event: Event) {
             releFilter.checked ? categoryFilters.push('rele') : '';
             starterFilter.checked ? categoryFilters.push('starter') : '';
             generatorFilter.checked ? categoryFilters.push('generator') : '';
-            searchString += 'category=' + categoryFilters.join('|');
+            searchString += (searchString.length === 2 ? '' : '&') + 'category=' + categoryFilters.join('|');
         }
         // finish filter by category
 
@@ -147,16 +197,49 @@ function onFiltersValueChanged(event: Event) {
         if (isStockChanged) {
             filteredDetails = filteredDetails.filter((el) => (
                     el.quantity >= Number(minStockInput.value) &&
-                    el.quantity <= Number(minStockInput.value)
+                    el.quantity <= Number(maxStockInput.value)
+                )
             )
-        )
-        searchString += (searchString.length === 2 ? '' : '&')
+            searchString += (searchString.length === 2 ? '' : '&')
                 + `stock=${minStockInput.value}|${maxStockInput.value}`;
         }
     }
 
+    //filter by name
+    if (isNameFiltered) {
+        filteredDetails = filteredDetails.filter((el) => el.name.toUpperCase().includes(filterName.value.toUpperCase()));
+        searchString += (searchString.length === 2 ? '' : '&')
+            + `name=${filterName.value}`;
+    }
+    //finish filter by name
+
+    if (isSortingPicked) {
+        switch (Number(sortInput.selectedOptions.item(0)?.value)) {
+            case 0:
+                filteredDetails = filteredDetails.sort((el1, el2) => el1.price - el2.price);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=PRICE-ASC`;
+                break;
+            case 1:
+                filteredDetails = filteredDetails.sort((el1, el2) => el2.price - el1.price);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=PRICE-DESC`;
+                break;
+            case 2:
+                filteredDetails = filteredDetails.sort((el1, el2) => el1.quantity - el2.quantity);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=STOCK-ASC`;
+                break;
+            case 3:
+                filteredDetails = filteredDetails.sort((el1, el2) => el2.quantity - el1.quantity);
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `sort=STOCK-DESC`;
+                break;
+        }
+    }
+
     document.querySelector('.products__items')?.remove();
-    const productsPage = renderMainPage(filteredDetails);
+    const productsPage = renderMainPage(filteredDetails, cartItems);
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
@@ -195,6 +278,9 @@ function initializeAllInputs() {
     releFilter.checked = false;
     starterFilter.checked = false;
     generatorFilter.checked = false;
+
+    sortInput.selectedIndex = 0;
+    filterName.value = '';
 }
 
 initializeAllInputs();
@@ -208,31 +294,13 @@ function hideAllElements() {
     document.querySelector('.error-page')?.remove();
 }
 
-const logoElement = document.querySelector('#logo') as HTMLImageElement;
-logoElement.src = logo;
-logoElement.onclick = () => {
-    hideAllElements();
-    (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
-    const productsPage = renderMainPage(detailsData);
-    productsPage.classList.add('products__items');
-    document.querySelector('.products')?.appendChild(productsPage);
-    window.history.pushState({}, '', `/`);
-}
-const cartElement = document.querySelector('#cart') as HTMLImageElement;
-cartElement.src = cart;
-cartElement.onclick = () => {
-    hideAllElements();
-    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
-    window.history.pushState({}, '', `/cart/`);
-}
-
 const searchString = window.location.search;
 const pathString = window.location.pathname;
 
 console.log(`pathString  = ${pathString}, searchString = ${searchString}`);
 
 if (!searchString && pathString === '/') {
-    const productsPage = renderMainPage(detailsData);
+    const productsPage = renderMainPage(detailsData, cartItems);
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
 } else {
@@ -247,7 +315,7 @@ if (!searchString && pathString === '/') {
                 console.log(`productId = ${productId}`);
                 if (productId >= 1 && productId < detailsData.length + 1) {
                     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
-                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(detailsData[productId - 1]));
+                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderProductPage(detailsData[productId - 1], cartItems));
                 } else {
                     hideAllElements();
                     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());
@@ -257,5 +325,76 @@ if (!searchString && pathString === '/') {
                 document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderErrorPage());
             }
         }
+    }
+    if (searchString && pathString === '/') {
+        const {price, name, quantity, sorting, categories, brands} = new SearchQuery(searchString);
+        if (name) {
+            filterName.value = name;
+        }
+        if (price[0] && price[0] >= Number(minPriceInput.min)) {
+            minPriceInput.value = String(price[0]);
+        }
+        if (price[1] && price[1] <= Number(maxPriceInput.max) && price[1] > Number(minPriceInput.value)) {
+            maxPriceInput.value = String(price[1]);
+        }
+        if (quantity[0] && quantity[0] >= Number(minStockInput.min)) {
+            minStockInput.value = String(quantity[0]);
+        }
+        if (quantity[1] && quantity[1] <= Number(maxStockInput.max) && quantity[1] > Number(minStockInput.value)) {
+            maxStockInput.value = String(quantity[1]);
+        }
+        if (sorting) {
+            switch (sorting.toUpperCase()) {
+                case 'PRICE-ASC':
+                    sortInput.selectedIndex = 1;
+                    break;
+                case 'PRICE-DESC':
+                    sortInput.selectedIndex = 2;
+                    break;
+                case 'STOCK-ASC':
+                    sortInput.selectedIndex = 3;
+                    break;
+                case 'STOCK-DESC':
+                    sortInput.selectedIndex = 4;
+                    break;
+            }
+        }
+        if (categories.length) {
+            for (let i = 0; i < categories.length; i++) {
+                switch (categories[i].toLowerCase()) {
+                    case 'bendiks':
+                        bendiksFilter.checked = true;
+                        break;
+                    case 'rele':
+                        releFilter.checked = true;
+                        break;
+                    case 'starter':
+                        starterFilter.checked = true;
+                        break;
+                    case 'generator':
+                        generatorFilter.checked = true;
+                        break;
+                }
+            }
+        }
+        if (brands.length) {
+            for (let i = 0; i < brands.length; i++) {
+                switch (brands[i].toLowerCase()) {
+                    case 'lsa':
+                        lsaFilter.checked = true;
+                        break;
+                    case 'vtn':
+                        vtnFilter.checked = true;
+                        break;
+                    case 'auto':
+                        autoFilter.checked = true;
+                        break;
+                    case 'vanssi':
+                        vanssiFilter.checked = true;
+                        break;
+                }
+            }
+        }
+        onFiltersValueChanged(new Event(''));
     }
 }
