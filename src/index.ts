@@ -197,6 +197,7 @@ function onFiltersValueChanged(event: Event) {
         if (isStockChanged) {
             filteredDetails = filteredDetails.filter((el) => (
                     el.quantity >= Number(minStockInput.value) &&
+
                     el.quantity <= Number(maxStockInput.value)
                 )
             )
