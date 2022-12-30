@@ -1,6 +1,26 @@
-import { CartItem } from "../types/cartItem";
+import {CartProducts} from "../types/cartProducts";
+import {getNum} from "../features/help-functions";
 
-export function renderCartPage(data: CartItem[]): HTMLElement {
+export const setResultFields = (data: CartProducts) => {
+    const headerCart = document.querySelector('.header__cart-total') as HTMLElement;
+    const summaryAmount = document.querySelector('.summary__amount') as HTMLElement;
+    const summaryTotal = document.querySelector('.summary__total') as HTMLElement;
+
+    if (headerCart) {
+        headerCart.innerText = `Корзина: ${getNum(data.getTotalPrice())} грн. Количество товаров: ${data.getTotalQuantity()}`;
+    }
+    if (summaryAmount) {
+        summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;
+    }
+    if (summaryTotal) {
+        summaryTotal.innerHTML = `Всего: ${getNum(data.getTotalPrice())} грн.`;
+    }
+}
+
+export function renderCartPage(data: CartProducts): HTMLElement {
+    // const summaryDiscount = document.querySelector('.summary__discount') as HTMLElement;
+    //todo work with discount
+
     const cartPage = document.createElement('div');
     cartPage.classList.add('cart')
 
@@ -8,7 +28,8 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
     cartItems.classList.add('cart-items');
     cartPage.append(cartItems);
 
-    data.forEach((item, i) => {
+    for (let i = 0; i < data.getItemsLength(); i++) {
+        const item = data.getCartItem(i);
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-items__item');
         cartItems.append(cartItem);
@@ -16,7 +37,7 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
         const cartItemImg = document.createElement('img');
         cartItemImg.classList.add('cart-items__item-img');
         cartItemImg.setAttribute('alt', "item");
-        cartItemImg.setAttribute('src', `${item.images[0]}`);
+        cartItemImg.setAttribute('src', `${item?.product.images[0]}`);
         cartItem.append(cartItemImg);
 
         const cartItemInfo = document.createElement('div');
@@ -26,36 +47,50 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
         const cartItemName = document.createElement('div');
         cartItemName.classList.add('cart-items__item-name');
         cartItemInfo.append(cartItemName);
-        cartItemName.innerText = `${item.name}`;
+        cartItemName.innerText = `${item?.product.name}`;
 
         const cartItemAmount = document.createElement('div');
         cartItemAmount.classList.add('cart-items__item-amount');
         cartItemInfo.append(cartItemAmount);
-        const cartItemAmountInput = document.createElement('input');
+        const cartItemAmountInput = document.createElement('input') as HTMLInputElement;
         cartItemAmountInput.classList.add('cart-items__item-amount-input');
         cartItemAmountInput.setAttribute('type', 'number');
-        cartItemAmountInput.setAttribute('value', '1');
-        cartItemAmountInput.setAttribute('min', '0');
-        cartItemAmountInput.setAttribute('max', '99');
-        cartItemAmount.innerHTML = 'Количество: ';
+        cartItemAmountInput.setAttribute('min', '1');
+        cartItemAmountInput.setAttribute('max', String(item?.product.quantity));
+        cartItemAmountInput.setAttribute('value', String(item?.getQuantity()));
+
+        let oldValue = cartItemAmountInput.value;
+        console.log(`cartItemAmountInput.value = ${cartItemAmountInput.value}, oldValue = ${oldValue}`)
+        cartItemAmount.innerHTML = 'Количество штук: ';
         cartItemAmount.append(cartItemAmountInput);
-        cartItemAmount.innerHTML+= ' шт';
+        cartItemAmountInput.addEventListener('input', () => {
+            if (cartItemAmountInput.value > oldValue) {
+                if (item) {
+                    data.addProduct(item.product);
+                }
+                oldValue = cartItemAmountInput.value;
+            } else {
+                data.decrementProduct(i);
+                oldValue = cartItemAmountInput.value;
+            }
+            setResultFields(data);
+        });
 
         const cartItemSum = document.createElement('div');
         cartItemSum.classList.add('cart-items__item-sum');
         cartItemInfo.append(cartItemSum);
-        cartItemSum.innerText = `${item.price} грн`
+        cartItemSum.innerText = `${item?.product.price} грн`
 
         const cartItemTrash = document.createElement('div');
         cartItemTrash.classList.add('cart-items__trash');
         cartItem.append(cartItemTrash);
-        cartItemTrash.onclick = function():void {
-            data.splice(i, 1);
+        cartItemTrash.onclick = function (): void {
+            data.removeProduct(i);
             cartPage.remove();
             document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(data));
-            // console.log(data);
+            setResultFields(data);
         }
-    })
+    }
 
     const summaryWrapper = document.createElement('div');
     summaryWrapper.classList.add('summary-wrapper');
@@ -78,7 +113,7 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
     const summaryAmount = document.createElement('div');
     summaryAmount.classList.add('summary__amount');
     summaryInfo.append(summaryAmount);
-    summaryAmount.textContent = `Товаров: 1 шт`
+    summaryAmount.textContent = `Товаров: 0 шт`
 
     const summaryDiscount = document.createElement('div');
     summaryDiscount.classList.add('summary__discount');
@@ -97,13 +132,20 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
     const summaryTotal = document.createElement('div');
     summaryTotal.classList.add('summary__total');
     summaryInfo.append(summaryTotal);
-    summaryTotal.textContent = 'Всего: 999 грн';
+    summaryTotal.textContent = 'Всего: 0 грн.';
 
 
     const summaryPay = document.createElement('button');
     summaryPay.classList.add('summary__pay');
     summaryWrapper.append(summaryPay);
-    summaryPay.textContent = 'Оплата'
+    summaryPay.textContent = 'Оплата';
+
+    if (summaryAmount) {
+        summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;
+    }
+    if (summaryTotal) {
+        summaryTotal.innerHTML = `Всего: ${getNum(data.getTotalPrice())} грн.`;
+    }
 
     return cartPage;
 }
