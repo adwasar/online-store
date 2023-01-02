@@ -8,7 +8,7 @@ import {renderMainPage} from './pages/main';
 import {renderProductPage} from './pages/product';
 import {renderCartPage} from "./pages/cart";
 import {renderErrorPage} from './pages/errorPage';
-import {renderModalWindowPage} from './pages/modalWindow';
+// import {renderModalWindowPage} from './pages/modalWindow';
 
 const minPriceInput = document.querySelector('#from-slider-price') as HTMLInputElement;
 const maxPriceInput = document.querySelector('#to-slider-price') as HTMLInputElement;
@@ -260,6 +260,3 @@ if (!searchString && pathString === '/') {
         }
     }
 }
-
-// (document.querySelector('.app-store-page') as HTMLElement).style.display = 'none';
-document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());

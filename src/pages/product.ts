@@ -1,5 +1,6 @@
 import {createElementWithClass, getProductChain} from "../features/help-functions";
 import {Product} from "../types/product";
+import { renderModalWindowPage } from "./modalWindow";
 
 export function renderProductPage(product: Product): HTMLElement {
     const {brand, name, images, description, price, quantity, category} = product;
@@ -62,8 +63,15 @@ export function renderProductPage(product: Product): HTMLElement {
 
     const productBuyOptions = createElementWithClass('product__buy-options');
     productBuyOptions.innerHTML = `<p>${price}</p>`;
-    productBuyOptions.innerHTML += '<button>Добавить в корзину</button>' + '<button>Купить сейчас</button>';
+    productBuyOptions.innerHTML += '<button>Добавить в корзину</button>';
     productCardContainer.appendChild(productBuyOptions);
+
+    const productBuyNowBtn = document.createElement('button');
+    productBuyNowBtn.textContent = 'Купить сейчас';
+    productBuyOptions.append(productBuyNowBtn);
+    productBuyNowBtn.addEventListener('click', () => {
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+    });
 
     productCard.appendChild(productCardContainer);
     productPage.appendChild(productCard);

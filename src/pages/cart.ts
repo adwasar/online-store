@@ -1,4 +1,5 @@
 import { CartItem } from "../types/cartItem";
+import { renderModalWindowPage } from "./modalWindow";
 
 export function renderCartPage(data: CartItem[]): HTMLElement {
     const cartPage = document.createElement('div');
@@ -104,6 +105,9 @@ export function renderCartPage(data: CartItem[]): HTMLElement {
     summaryPay.classList.add('summary__pay');
     summaryWrapper.append(summaryPay);
     summaryPay.textContent = 'Оплата'
+    summaryPay.addEventListener('click', () => {
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+    })
 
     return cartPage;
 }
