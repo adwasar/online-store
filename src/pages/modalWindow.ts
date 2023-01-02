@@ -1,6 +1,11 @@
 export function renderModalWindowPage(): HTMLElement {
     const modalWindowPage = document.createElement('div');
     modalWindowPage.classList.add('modal');
+    modalWindowPage.addEventListener('click', (e) => {
+        if (e.target === modalWindowPage) {
+            modalWindowPage.remove();
+        }
+    })
 
     const modalContainer = document.createElement('div');
     modalContainer.classList.add('modal__container');
