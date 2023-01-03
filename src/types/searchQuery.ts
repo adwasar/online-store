@@ -19,7 +19,7 @@ export class SearchQuery {
                 case 'SORT':
                     this.sorting = searchPairs[i][1];
                     break;
-                case 'NAME':
+                case 'SEARCH':
                     this.name = searchPairs[i][1];
                     break;
                 case 'PRICE':
