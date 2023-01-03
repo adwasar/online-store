@@ -158,6 +158,15 @@ export function renderModalWindowPage(): HTMLElement {
     creditCardCvv.append(creditCardCvvInput);
     creditCardCvvInput.setAttribute('type', 'password');
     creditCardCvvInput.setAttribute('placeholder', '123');
+    creditCardCvvInput.addEventListener('input', () => {
+        function formatCvv(value: string) {
+            const cvvNumb = value.replace(/[^\d]/g, '');
+            return cvvNumb.slice(0, 3);
+        }
+
+        const formatted = formatCvv(creditCardCvvInput.value);
+        creditCardCvvInput.value = formatted as string;
+    })
 
 
     const modalSubmit = document.createElement('button');
