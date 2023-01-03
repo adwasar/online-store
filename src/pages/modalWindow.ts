@@ -39,8 +39,32 @@ export function renderModalWindowPage(): HTMLElement {
     personalDetailNumberPhone.textContent = 'Телефон';
     const personalDetailNumberPhoneInput = document.createElement('input');
     personalDetailNumberPhone.append(personalDetailNumberPhoneInput);
-    personalDetailNumberPhoneInput.setAttribute('type', 'text');
-    personalDetailNumberPhoneInput.setAttribute('placeholder', '0950000000');
+    personalDetailNumberPhoneInput.setAttribute('type', 'tel');
+    personalDetailNumberPhoneInput.setAttribute('placeholder', '(095) 000-0000');
+    personalDetailNumberPhoneInput.addEventListener('input', () => {
+        function formatPhoneNumber(value: string | null) {
+            if(!value) return 0;
+            const phoneNumber = value.replace(/[^\d]/g, '');
+            const phoneNumberLength = phoneNumber.length;
+            if (phoneNumberLength < 4) return `0${phoneNumber.slice(1)}`;
+            if (phoneNumberLength < 7) {
+                return `(0${phoneNumber.slice(1, 3)}) ${phoneNumber.slice(3)}`
+            }
+            return `(0${phoneNumber.slice(1, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
+        }
+        const formatted = formatPhoneNumber(personalDetailNumberPhoneInput.value);
+        personalDetailNumberPhoneInput.value = formatted as string;
+    })
+    personalDetailNumberPhoneInput.addEventListener('click', () => {
+        if (personalDetailNumberPhoneInput.value === '') {
+            personalDetailNumberPhoneInput.value = '0';
+        }
+    })
+    personalDetailNumberPhoneInput.addEventListener('focusout', () => {
+        if (personalDetailNumberPhoneInput.value === '0') {
+            personalDetailNumberPhoneInput.value = '';
+        }
+    })
 
     const personalDetailAddress = document.createElement('div');
     personalDetailAddress.classList.add('modal__address');
