@@ -123,7 +123,6 @@ export function renderModalWindowPage(): HTMLElement {
         }
         const formatted = formatCardNum(creditCardNumInput.value);
         creditCardNumInput.value = formatted as string;
-        console.log(creditCardNumInput.value);
     });
 
     const creditCardValid = document.createElement('div');
@@ -134,6 +133,22 @@ export function renderModalWindowPage(): HTMLElement {
     creditCardValid.append(creditCardValidInput);
     creditCardValidInput.setAttribute('type', 'text');
     creditCardValidInput.setAttribute('placeholder', '01/23');
+    creditCardValidInput.addEventListener('input', () => {
+        function formatCardValid(value: string) {
+            if (!value) return '';
+            const validNum = value.replace(/[^\d]/g, '');
+            const validNumLength = validNum.length;
+            if (validNumLength < 3) {
+                return validNum
+            } else {
+                return `${validNum.slice(0, 2)}/${validNum.slice(2, 4)}`;
+            }
+        }
+
+        const formatted = formatCardValid(creditCardValidInput.value);
+        creditCardValidInput.value = formatted as string;
+    });
+
 
     const creditCardCvv = document.createElement('div');
     creditCardCvv.classList.add('modal__credit-card-cvv');
