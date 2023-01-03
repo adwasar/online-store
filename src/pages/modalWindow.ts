@@ -81,7 +81,7 @@ export function renderModalWindowPage(): HTMLElement {
     personalDetailEmail.textContent = 'E-mail';
     const personalDetailEmailInput = document.createElement('input');
     personalDetailEmail.append(personalDetailEmailInput);
-    personalDetailEmailInput.setAttribute('type', 'text');
+    personalDetailEmailInput.setAttribute('type', 'email');
     personalDetailEmailInput.setAttribute('placeholder', 'email@gmail.com');
 
     const creditCard = document.createElement('div');
@@ -101,6 +101,30 @@ export function renderModalWindowPage(): HTMLElement {
     creditCardNum.append(creditCardNumInput);
     creditCardNumInput.setAttribute('type', 'text');
     creditCardNumInput.setAttribute('placeholder', '0000-0000-0000-0000');
+    creditCardNumInput.addEventListener('input', () => {
+        function formatCardNum(value: string) {
+            if (!value) return '1';
+            const cardNum = value.replace(/[^\d]/g, '');
+            const cardNumLength = cardNum.length;
+            if (cardNumLength < 5) {
+                return cardNum
+            }
+            if (cardNumLength < 9) {
+                return `${cardNum.slice(0, 4)}-${cardNum.slice(4)}`
+            }
+            if (cardNumLength < 13) {
+                return `${cardNum.slice(0, 4)}-${cardNum.slice(4, 8)}-${
+                    cardNum.slice(8)}`
+            }
+            if (cardNumLength >= 13) {
+                return `${cardNum.slice(0, 4)}-${cardNum.slice(4, 8)}-${
+                    cardNum.slice(8, 12)}-${cardNum.slice(12, 16)}`
+            }
+        }
+        const formatted = formatCardNum(creditCardNumInput.value);
+        creditCardNumInput.value = formatted as string;
+        console.log(creditCardNumInput.value);
+    });
 
     const creditCardValid = document.createElement('div');
     creditCardValid.classList.add('modal__credit-card-valid');
