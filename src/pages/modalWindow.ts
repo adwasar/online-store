@@ -121,6 +121,20 @@ export function renderModalWindowPage(): HTMLElement {
     personalDetailEmail.append(personalDetailEmailInput);
     personalDetailEmailInput.setAttribute('type', 'email');
     personalDetailEmailInput.setAttribute('placeholder', 'email@gmail.com');
+    personalDetailEmailInput.addEventListener('change', () => {
+        const validateEmail = (email: string) => {
+            return String(email)
+              .toLowerCase()
+              .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              );
+          };
+        if (!validateEmail(personalDetailEmailInput.value)) {
+            personalDetailEmailInput.classList.add('incorrect');
+        } else {
+            personalDetailEmailInput.classList.remove('incorrect');
+        }
+    })
 
     const creditCard = document.createElement('div');
     creditCard.classList.add('modal__credit-card');
