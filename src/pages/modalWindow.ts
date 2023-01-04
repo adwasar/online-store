@@ -33,11 +33,8 @@ export function renderModalWindowPage(): HTMLElement {
     personalDetailsNameInput.setAttribute('placeholder', 'Имя Фамилия');
     personalDetailsNameInput.setAttribute('type', 'text');
     personalDetailsNameInput.addEventListener('change', () => {
-        let nameValue = personalDetailsNameInput.value;
-        if (nameValue.slice(-1) === ' ') {
-            nameValue = nameValue.trim();
-        }
-        const nameValueArr = nameValue.split(` `);
+        const nameValue = personalDetailsNameInput.value;
+        const nameValueArr = nameValue.trim().split(` `);
         const nameValueLength = nameValueArr.length;
         if (nameValueLength !== 2) {
             personalDetailsNameInput.classList.add('incorrect');
@@ -99,7 +96,22 @@ export function renderModalWindowPage(): HTMLElement {
     const personalDetailAddressInput = document.createElement('input');
     personalDetailAddress.append(personalDetailAddressInput);
     personalDetailAddressInput.setAttribute('type', 'text');
-    personalDetailAddressInput.setAttribute('placeholder', 'г.Киев, ул.Центральная, д.1');
+    personalDetailAddressInput.setAttribute('placeholder', 'г.Киев, обл.Киевская, ул.Центральная');
+    personalDetailAddressInput.addEventListener('change', () => {
+        const addressValue = personalDetailAddressInput.value;
+        const addressValueArr = addressValue.trim().split(' ');
+        const addressValueLength = addressValueArr.length;
+        if (addressValueLength < 3) {
+            personalDetailAddressInput.classList.add('incorrect');
+        } else {
+            personalDetailAddressInput.classList.remove('incorrect');
+        }
+        addressValueArr.forEach((item) => {
+            if (item.length < 5) {
+                personalDetailAddressInput.classList.add('incorrect');
+            }
+        })
+    })
 
     const personalDetailEmail = document.createElement('div');
     personalDetailEmail.classList.add('modal__e-mail');
