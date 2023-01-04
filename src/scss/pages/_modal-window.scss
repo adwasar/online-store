@@ -69,6 +69,13 @@
                     color: $font-color-white;
                 }
 
+                img {
+                    margin: 5px;
+                    // padding: 5px;
+                    height: 30px;
+                    width: 45px;
+                }
+
             }
             .modal__submit {
                 margin: 10px auto;
@@ -81,8 +88,4 @@
             }
         }
     }
-}
-
-.incorrect {
-    color: red;
 }
