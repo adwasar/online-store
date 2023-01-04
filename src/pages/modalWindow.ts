@@ -203,10 +203,16 @@ export function renderModalWindowPage(): HTMLElement {
                 return `${validNum.slice(0, 2)}/${validNum.slice(2, 4)}`;
             }
         }
-
         const formatted = formatCardValid(creditCardValidInput.value);
         creditCardValidInput.value = formatted as string;
     });
+    creditCardValidInput.addEventListener('change', () => {
+        if (creditCardValidInput.value.length < 5) {
+            creditCardValidInput.classList.add('incorrect');
+        } else {
+            creditCardValidInput.classList.remove('incorrect');
+        }
+    })
 
 
     const creditCardCvv = document.createElement('div');
