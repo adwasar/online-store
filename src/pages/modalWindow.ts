@@ -228,9 +228,15 @@ export function renderModalWindowPage(): HTMLElement {
             const cvvNumb = value.replace(/[^\d]/g, '');
             return cvvNumb.slice(0, 3);
         }
-
         const formatted = formatCvv(creditCardCvvInput.value);
         creditCardCvvInput.value = formatted as string;
+    })
+    creditCardCvvInput.addEventListener('change', () => {
+        if (creditCardCvvInput.value.length < 3) {
+            creditCardCvvInput.classList.add('incorrect');
+        } else  {
+            creditCardCvvInput.classList.remove('incorrect');
+        }
     })
 
 
