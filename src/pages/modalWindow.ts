@@ -27,11 +27,29 @@ export function renderModalWindowPage(): HTMLElement {
     const personalDetailsName = document.createElement('div');
     personalDetailsName.classList.add('modal__name');
     personalDetails.append(personalDetailsName);
-    personalDetailsName.textContent = 'Имя';
+    personalDetailsName.textContent = 'Имя Фамилия';
     const personalDetailsNameInput = document.createElement('input');
     personalDetailsName.append(personalDetailsNameInput);
-    personalDetailsNameInput.setAttribute('placeholder', 'Name');
+    personalDetailsNameInput.setAttribute('placeholder', 'Имя Фамилия');
     personalDetailsNameInput.setAttribute('type', 'text');
+    personalDetailsNameInput.addEventListener('change', () => {
+        let nameValue = personalDetailsNameInput.value;
+        if (nameValue.slice(-1) === ' ') {
+            nameValue = nameValue.trim();
+        }
+        const nameValueArr = nameValue.split(` `);
+        const nameValueLength = nameValueArr.length;
+        if (nameValueLength !== 2) {
+            personalDetailsNameInput.classList.add('incorrect');
+        } else {
+            personalDetailsNameInput.classList.remove('incorrect');
+        }
+        nameValueArr.forEach((item) => {
+            if (item.length < 3) {
+                personalDetailsNameInput.classList.add('incorrect');
+            }
+        })
+    })
 
     const personalDetailNumberPhone = document.createElement('div');
     personalDetailNumberPhone.classList.add('modal__number-phone');
