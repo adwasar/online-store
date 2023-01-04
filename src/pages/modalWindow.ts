@@ -176,6 +176,13 @@ export function renderModalWindowPage(): HTMLElement {
         const formatted = formatCardNum(creditCardNumInput.value);
         creditCardNumInput.value = formatted as string;
     });
+    creditCardNumInput.addEventListener('change', () => {
+        if (creditCardNumInput.value.length < 19) {
+            creditCardNumInput.classList.add('incorrect');
+        } else {
+            creditCardNumInput.classList.remove('incorrect');
+        }
+    })
 
     const creditCardValid = document.createElement('div');
     creditCardValid.classList.add('modal__credit-card-valid');
