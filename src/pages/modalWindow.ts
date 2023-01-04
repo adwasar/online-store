@@ -58,29 +58,37 @@ export function renderModalWindowPage(): HTMLElement {
     const personalDetailNumberPhoneInput = document.createElement('input');
     personalDetailNumberPhone.append(personalDetailNumberPhoneInput);
     personalDetailNumberPhoneInput.setAttribute('type', 'tel');
-    personalDetailNumberPhoneInput.setAttribute('placeholder', '(095) 000-0000');
+    personalDetailNumberPhoneInput.setAttribute('placeholder', '+38(095) 0000-000');
     personalDetailNumberPhoneInput.addEventListener('input', () => {
         function formatPhoneNumber(value: string | null) {
-            if(!value) return 0;
+            if(!value) return '';
             const phoneNumber = value.replace(/[^\d]/g, '');
             const phoneNumberLength = phoneNumber.length;
-            if (phoneNumberLength < 4) return `0${phoneNumber.slice(1)}`;
-            if (phoneNumberLength < 7) {
-                return `(0${phoneNumber.slice(1, 3)}) ${phoneNumber.slice(3)}`
+            console.log(personalDetailNumberPhoneInput.value.length);
+            if (phoneNumberLength < 6) return `+380${phoneNumber.slice(3)}`;
+            if (phoneNumberLength < 10) {
+                return `+38(0${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5)}`
             }
-            return `(0${phoneNumber.slice(1, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
+            return `+38(0${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 9)}-${phoneNumber.slice(9, 12)}`
         }
         const formatted = formatPhoneNumber(personalDetailNumberPhoneInput.value);
         personalDetailNumberPhoneInput.value = formatted as string;
     })
     personalDetailNumberPhoneInput.addEventListener('click', () => {
         if (personalDetailNumberPhoneInput.value === '') {
-            personalDetailNumberPhoneInput.value = '0';
+            personalDetailNumberPhoneInput.value = '+380';
         }
     })
     personalDetailNumberPhoneInput.addEventListener('focusout', () => {
-        if (personalDetailNumberPhoneInput.value === '0') {
+        if (personalDetailNumberPhoneInput.value === '+380') {
             personalDetailNumberPhoneInput.value = '';
+        }
+    })
+    personalDetailNumberPhoneInput.addEventListener('change', () => {
+        if (personalDetailNumberPhoneInput.value.length < 17) {
+            personalDetailNumberPhoneInput.classList.add('incorrect');
+        } else {
+            personalDetailNumberPhoneInput.classList.remove('incorrect');
         }
     })
 
