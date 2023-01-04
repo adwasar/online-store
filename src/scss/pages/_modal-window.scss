@@ -69,11 +69,12 @@
                     color: $font-color-white;
                 }
 
-                img {
+                .card-logo {
                     margin: 5px;
-                    // padding: 5px;
                     height: 30px;
                     width: 45px;
+                    background-size: 100% 100%;
+                    border: solid 2px $back-dark;
                 }
 
             }
