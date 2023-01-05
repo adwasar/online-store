@@ -2,11 +2,17 @@ import {Product} from './product';
 import {CartItem} from "./cartItem";
 
 export class CartProducts {
-    private readonly cartItems: CartItem[];
+    private cartItems: CartItem[];
     private totalPrice: number;
     private totalQuantity: number;
 
     constructor() {
+        this.cartItems = [];
+        this.totalQuantity = 0;
+        this.totalPrice = 0;
+    }
+
+    public clearCart() {
         this.cartItems = [];
         this.totalQuantity = 0;
         this.totalPrice = 0;

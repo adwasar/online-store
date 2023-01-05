@@ -50,7 +50,7 @@ const cartElement = document.querySelector('#cart') as HTMLImageElement;
 const cartItems = new CartProducts();
 
 
-const onLogoClicked = () => {
+export const onLogoClicked = () => {
     hideAllElements();
     (document.querySelector('.app-store-page') as HTMLElement).style.display = 'flex';
     const productsPage = renderMainPage(detailsData, cartItems);
