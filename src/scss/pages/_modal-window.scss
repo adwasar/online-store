@@ -32,7 +32,7 @@
                 flex-direction: column;
                 .modal__personal-details-title {
                     font-size: 1.6rem;
-                    padding: 5px;
+                    padding: 5px 0px;
                     margin: 5px;
                 }
 
@@ -54,7 +54,7 @@
                 flex-direction: column;
                 .modal__credit-card-title {
                     font-size: 1.6rem;
-                    padding: 5px;
+                    padding: 5px 0px;
                     margin: 5px;
                 }
 
@@ -74,11 +74,12 @@
                     height: 30px;
                     width: 45px;
                     background-size: 100% 100%;
-                    border: solid 2px $back-dark;
+                    border: solid 2px $main-color;
                 }
 
             }
             .modal__submit {
+                display: block;
                 margin: 10px auto;
                 font-size: 1.6rem;
                 height: 37px;
