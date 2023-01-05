@@ -1,3 +1,7 @@
+const success = document.createElement('div');
+success.classList.add('success');
+success.innerHTML = 'Заказ оформлен';
+
 export function renderModalWindowPage(): HTMLElement {
     const modalWindowPage = document.createElement('div');
     modalWindowPage.classList.add('modal');
@@ -15,9 +19,12 @@ export function renderModalWindowPage(): HTMLElement {
     modalContent.classList.add('modal__content');
     modalContainer.append(modalContent);
 
+    const modalForm = document.createElement('form');
+    modalContent.append(modalForm);
+
     const personalDetails = document.createElement('div');
     personalDetails.classList.add('modal__personal-details');
-    modalContent.append(personalDetails);
+    modalForm.append(personalDetails);
 
     const personalDetailsTitle = document.createElement('h2');
     personalDetailsTitle.classList.add('modal__personal-details-title');
@@ -55,13 +62,12 @@ export function renderModalWindowPage(): HTMLElement {
     const personalDetailNumberPhoneInput = document.createElement('input');
     personalDetailNumberPhone.append(personalDetailNumberPhoneInput);
     personalDetailNumberPhoneInput.setAttribute('type', 'tel');
-    personalDetailNumberPhoneInput.setAttribute('placeholder', '+38(095) 0000-000');
+    personalDetailNumberPhoneInput.setAttribute('placeholder', '+38(0__) ____-___');
     personalDetailNumberPhoneInput.addEventListener('input', () => {
         function formatPhoneNumber(value: string | null) {
             if(!value) return '';
             const phoneNumber = value.replace(/[^\d]/g, '');
             const phoneNumberLength = phoneNumber.length;
-            console.log(personalDetailNumberPhoneInput.value.length);
             if (phoneNumberLength < 6) return `+380${phoneNumber.slice(3)}`;
             if (phoneNumberLength < 10) {
                 return `+38(0${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5)}`
@@ -138,7 +144,7 @@ export function renderModalWindowPage(): HTMLElement {
 
     const creditCard = document.createElement('div');
     creditCard.classList.add('modal__credit-card');
-    modalContent.append(creditCard);
+    modalForm.append(creditCard);
 
     const creditCardTitle = document.createElement('h2');
     creditCardTitle.classList.add('modal__credit-card-title');
@@ -147,8 +153,8 @@ export function renderModalWindowPage(): HTMLElement {
 
     const mastercardLogo = document.createElement('div');
     mastercardLogo.classList.add('card-logo');
-    mastercardLogo.style.backgroundImage = 'url(https://www.pngitem.com/pimgs/m/160-1604068_index-of-catalog-logos-visa-mastercard-american-express.png)';
-    mastercardLogo.style.width = '130px';
+    mastercardLogo.style.backgroundImage = 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHDuyzA3gM3mt4ZIkq8fZFd0RHaubpXqiqsQ&usqp=CAU)';
+    mastercardLogo.style.width = '160px';
     creditCard.append(mastercardLogo);
 
     const creditCardNum = document.createElement('div');
@@ -182,17 +188,17 @@ export function renderModalWindowPage(): HTMLElement {
         const formatted = formatCardNum(creditCardNumInput.value);
         creditCardNumInput.value = formatted as string;
         if (creditCardNumInput.value.slice(0, 1) === '5') {
-            mastercardLogo.style.backgroundImage = 'url(https://download.logo.wine/logo/Mastercard/Mastercard-Logo.wine.png)';
-            mastercardLogo.style.width = '45px';
+            mastercardLogo.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png)';
+            mastercardLogo.style.width = '50px';
         } else if (creditCardNumInput.value.slice(0, 1) === '4') {
-            mastercardLogo.style.backgroundImage = 'url(https://www.pngfind.com/pngs/m/61-613444_visa-mastercard-discover-american-express-logo-png-mastercard.png)';
-            mastercardLogo.style.width = '45px';
+            mastercardLogo.style.backgroundImage = 'url(https://blog.logomyway.com/wp-content/uploads/2022/02/visa-logo-2.jpg)';
+            mastercardLogo.style.width = '50px';
         } else if (creditCardNumInput.value.slice(0, 1) === '3') {
             mastercardLogo.style.backgroundImage = 'url(data:image/png;base64,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)';
-            mastercardLogo.style.width = '45px';
+            mastercardLogo.style.width = '50px';
         } else {
-            mastercardLogo.style.backgroundImage = 'url(https://www.pngitem.com/pimgs/m/160-1604068_index-of-catalog-logos-visa-mastercard-american-express.png)';
-            mastercardLogo.style.width = '130px';
+            mastercardLogo.style.backgroundImage = 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHDuyzA3gM3mt4ZIkq8fZFd0RHaubpXqiqsQ&usqp=CAU)';
+            mastercardLogo.style.width = '160px';
         }
     });
     creditCardNumInput.addEventListener('change', () => {
@@ -261,8 +267,74 @@ export function renderModalWindowPage(): HTMLElement {
 
     const modalSubmit = document.createElement('button');
     modalSubmit.classList.add('modal__submit');
-    modalContent.append(modalSubmit);
+    modalForm.append(modalSubmit);
     modalSubmit.textContent = 'Подтвердить';
+    modalSubmit.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const invalidsStart = document.querySelectorAll('.invalid');
+        invalidsStart.forEach((elem) => {
+            elem.remove();
+        })
+
+        if (personalDetailsNameInput.classList.contains('incorrect')
+                || personalDetailsNameInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>Имя Фамилия</b> должен содержать не менее 2 слов, длина каждого не менее 3 символов';
+            personalDetailsName.after(err);
+        }
+        if (personalDetailNumberPhoneInput.classList.contains('incorrect')
+                || personalDetailNumberPhoneInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>Телефон</b> должен содержать не менее 12 цифр';
+            personalDetailNumberPhone.after(err);
+        }
+        if (personalDetailAddressInput.classList.contains('incorrect')
+                || personalDetailAddressInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>Адрес</b> должен содержать не менее трех слов, длина каждого не менее 5 символов';
+            personalDetailAddress.after(err);
+        }
+        if (personalDetailEmailInput.classList.contains('incorrect')
+                || personalDetailEmailInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>E-mail</b> должен иметь вид электронной почты';
+            personalDetailEmail.after(err);
+        }
+        if (creditCardNumInput.classList.contains('incorrect')
+                || creditCardNumInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>Номер карты</b> должен должен иметь не менее 16 цифр';
+            creditCardNum.after(err);
+        }
+        if (creditCardValidInput.classList.contains('incorrect')
+                || creditCardValidInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>Срок действия</b> должен содержать не менее 4 цифр';
+            creditCardValid.after(err);
+        }
+        if (creditCardCvvInput.classList.contains('incorrect')
+                || creditCardCvvInput.value === '') {
+            const err = document.createElement('div');
+            err.classList.add('invalid');
+            err.innerHTML = '<b>CVV</b> должен содержать не менее 3 цифр';
+            creditCardCvv.after(err);
+        }
+
+        const invalidsEnd = document.querySelectorAll('.invalid');
+
+        if (invalidsEnd.length === 0) {
+            modalSubmit.after(success);
+        } else {
+            success.remove();
+        }
+    })
 
     return modalWindowPage;
 }

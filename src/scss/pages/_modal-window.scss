@@ -18,7 +18,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     .modal__container {
         background-color: rgba(0, 0, 0, 0.2);
-        width: 330px;
+        width: 345px;
         background-color: #fff;
         border: solid 3px black;
         .modal__content {
@@ -32,7 +32,7 @@
                 flex-direction: column;
                 .modal__personal-details-title {
                     font-size: 1.6rem;
-                    padding: 5px;
+                    padding: 5px 0px;
                     margin: 5px;
                 }
 
@@ -54,7 +54,7 @@
                 flex-direction: column;
                 .modal__credit-card-title {
                     font-size: 1.6rem;
-                    padding: 5px;
+                    padding: 5px 0px;
                     margin: 5px;
                 }
 
@@ -72,13 +72,14 @@
                 .card-logo {
                     margin: 5px;
                     height: 30px;
-                    width: 45px;
+                    width: 50px;
                     background-size: 100% 100%;
-                    border: solid 2px $back-dark;
+                    border: solid 2px $main-color;
                 }
 
             }
             .modal__submit {
+                display: block;
                 margin: 10px auto;
                 font-size: 1.6rem;
                 height: 37px;
@@ -89,4 +90,16 @@
             }
         }
     }
+}
+
+.invalid {
+    margin-top: -5px;
+    color: red;
+    padding: 0 10px;
+    font-size: 1.2rem;
+}
+
+.success {
+    color: #007c32;
+    text-align: center;
 }
