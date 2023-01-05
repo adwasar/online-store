@@ -52,7 +52,6 @@ export function renderMainPage(products: Product[], cartItems: CartProducts): HT
 
         detailsButton.onclick = () => clickOnDetailsButton(products[i], cartItems);
         toCartButton.onclick = () => clickOnAddToCardButton(products[i], cartItems);
-
         mainPage.appendChild(productCard);
     }
     return mainPage;
