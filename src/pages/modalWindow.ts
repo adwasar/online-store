@@ -275,43 +275,50 @@ export function renderModalWindowPage(): HTMLElement {
         })
 
 
-        if (personalDetailsNameInput.classList.contains('incorrect')) {
+        if (personalDetailsNameInput.classList.contains('incorrect')
+                || personalDetailsNameInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>Имя Фамилия</b> должен содержать не менее 2 слов, длина каждого не менее 3 символов';
             personalDetailsName.after(err);
         }
-        if (personalDetailNumberPhoneInput.classList.contains('incorrect')) {
+        if (personalDetailNumberPhoneInput.classList.contains('incorrect')
+                || personalDetailNumberPhoneInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>Телефон</b> должен содержать не менее 12 цифр';
             personalDetailNumberPhone.after(err);
         }
-        if (personalDetailAddressInput.classList.contains('incorrect')) {
+        if (personalDetailAddressInput.classList.contains('incorrect')
+                || personalDetailAddressInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>Адрес</b> должен содержать не менее трех слов, длина каждого не менее 5 символов';
             personalDetailAddress.after(err);
         }
-        if (personalDetailEmailInput.classList.contains('incorrect')) {
+        if (personalDetailEmailInput.classList.contains('incorrect')
+                || personalDetailEmailInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>E-mail</b> должен иметь вид электронной почты';
             personalDetailEmail.after(err);
         }
-        if (creditCardNumInput.classList.contains('incorrect')) {
+        if (creditCardNumInput.classList.contains('incorrect')
+                || creditCardNumInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>Номер карты</b> должен должен иметь не менее 16 цифр';
             creditCardNum.after(err);
         }
-        if (creditCardValidInput.classList.contains('incorrect')) {
+        if (creditCardValidInput.classList.contains('incorrect')
+                || creditCardValidInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>Срок действия</b> должен содержать не менее 4 цифр';
             creditCardValid.after(err);
         }
-        if (creditCardCvvInput.classList.contains('incorrect')) {
+        if (creditCardCvvInput.classList.contains('incorrect')
+                || creditCardCvvInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
             err.innerHTML = '<b>CVV</b> должен содержать не менее 3 цифр';
