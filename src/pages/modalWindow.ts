@@ -236,7 +236,8 @@ export function renderModalWindowPage(cartItems: CartProducts): HTMLElement {
         creditCardValidInput.value = formatted as string;
     });
     creditCardValidInput.addEventListener('change', () => {
-        if (creditCardValidInput.value.length < 5) {
+        if (creditCardValidInput.value.length < 5
+            || +creditCardValidInput.value.slice(0, 2) > 12) {
             creditCardValidInput.classList.add('incorrect');
         } else {
             creditCardValidInput.classList.remove('incorrect');
@@ -320,7 +321,7 @@ export function renderModalWindowPage(cartItems: CartProducts): HTMLElement {
                 || creditCardValidInput.value === '') {
             const err = document.createElement('div');
             err.classList.add('invalid');
-            err.innerHTML = '<b>Срок действия</b> должен содержать не менее 4 цифр';
+            err.innerHTML = '<b>Срок действия</b> должен содержать корректный формат даты месяц/год';
             creditCardValid.after(err);
         }
         if (creditCardCvvInput.classList.contains('incorrect')
