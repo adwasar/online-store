@@ -1,3 +1,7 @@
+const success = document.createElement('div');
+success.classList.add('success');
+success.innerHTML = 'Заказ оформлен';
+
 export function renderModalWindowPage(): HTMLElement {
     const modalWindowPage = document.createElement('div');
     modalWindowPage.classList.add('modal');
@@ -64,7 +68,6 @@ export function renderModalWindowPage(): HTMLElement {
             if(!value) return '';
             const phoneNumber = value.replace(/[^\d]/g, '');
             const phoneNumberLength = phoneNumber.length;
-            console.log(personalDetailNumberPhoneInput.value.length);
             if (phoneNumberLength < 6) return `+380${phoneNumber.slice(3)}`;
             if (phoneNumberLength < 10) {
                 return `+38(0${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5)}`
@@ -269,11 +272,10 @@ export function renderModalWindowPage(): HTMLElement {
     modalSubmit.addEventListener('click', (e) => {
         e.preventDefault();
 
-        const invalids = document.querySelectorAll('.invalid');
-        invalids.forEach((elem) => {
+        const invalidsStart = document.querySelectorAll('.invalid');
+        invalidsStart.forEach((elem) => {
             elem.remove();
         })
-
 
         if (personalDetailsNameInput.classList.contains('incorrect')
                 || personalDetailsNameInput.value === '') {
@@ -325,6 +327,13 @@ export function renderModalWindowPage(): HTMLElement {
             creditCardCvv.after(err);
         }
 
+        const invalidsEnd = document.querySelectorAll('.invalid');
+
+        if (invalidsEnd.length === 0) {
+            modalSubmit.after(success);
+        } else {
+            success.remove();
+        }
     })
 
     return modalWindowPage;
