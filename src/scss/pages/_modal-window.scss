@@ -44,8 +44,8 @@
                     justify-content: space-between;
                     padding: 5px;
                     margin: 5px;
-                    background-color: $back-dark;
-                    color: $font-color-white;
+                    background-color: $main-color;
+                    color: $font-color;
                 }
             }
 
@@ -65,8 +65,8 @@
                     justify-content: space-between;
                     padding: 5px;
                     margin: 5px;
-                    background-color: $back-dark;
-                    color: $font-color-white;
+                    background-color: $main-color;
+                    color: $font-color;
                 }
 
                 .card-logo {
@@ -84,7 +84,7 @@
                 height: 37px;
                 width: 200px;
                 border: none;
-                background-color: $green;
+                background-color: $sub-color;
                 cursor: pointer;
             }
         }

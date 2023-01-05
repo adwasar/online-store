@@ -40,9 +40,15 @@ const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectEle
 const filterName = document.querySelector('.products__search-bar') as HTMLInputElement;
 const resetButton = document.querySelector('.filters__reset-filters') as HTMLElement;
 const copyButton = document.querySelector('.filters__copy-link') as HTMLElement;
+const filterQuantity = document.querySelector('.products__stat') as HTMLElement;
+const bigButton = document.querySelector('.products__big') as HTMLElement;
+const smallButton = document.querySelector('.products__small') as HTMLElement;
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
 const cartElement = document.querySelector('#cart') as HTMLImageElement;
+
+
 const cartItems = new CartProducts();
+
 
 const onLogoClicked = () => {
     hideAllElements();
@@ -70,6 +76,20 @@ const onCopyButtonClicked = () => {
     });
 }
 
+const onSmallClicked = () => {
+    if (!smallButton.classList.contains('active')) {
+        smallButton.classList.add('active');
+    }
+    bigButton.classList.remove('active');
+}
+
+const onBigClicked = () => {
+    if (!bigButton.classList.contains('active')) {
+        bigButton.classList.add('active');
+    }
+    smallButton.classList.remove('active');
+}
+
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
 minStockInput.oninput = onFiltersValueChanged;
@@ -86,6 +106,8 @@ sortInput.onchange = onFiltersValueChanged;
 filterName.oninput = onFiltersValueChanged;
 resetButton.onclick = onLogoClicked;
 copyButton.onclick = onCopyButtonClicked;
+smallButton.onclick = onSmallClicked;
+bigButton.onclick = onBigClicked;
 
 logoElement.src = logo;
 logoElement.onclick = onLogoClicked;
@@ -208,9 +230,18 @@ function onFiltersValueChanged(event: Event) {
 
     //filter by name
     if (isNameFiltered) {
-        filteredDetails = filteredDetails.filter((el) => el.name.toUpperCase().includes(filterName.value.toUpperCase()));
+        const searchValue = filterName.value.toUpperCase();
+        filteredDetails = filteredDetails.filter((el) => {
+            const {name, quantity, price, brand, category, description} = el;
+            return name.toUpperCase().includes(searchValue) ||
+                String(quantity).toUpperCase().includes(searchValue) ||
+                String(price).toUpperCase().includes(searchValue) ||
+                category.toUpperCase().includes(searchValue) ||
+                brand.toUpperCase().includes(searchValue) ||
+                description.toUpperCase().includes(searchValue);
+        });
         searchString += (searchString.length === 2 ? '' : '&')
-            + `name=${filterName.value}`;
+            + `search=${filterName.value}`;
     }
     //finish filter by name
 
@@ -244,6 +275,7 @@ function onFiltersValueChanged(event: Event) {
     productsPage.classList.add('products__items');
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
+    filterQuantity.innerText = `Найдено: ${filteredDetails.length}.`;
 }
 
 function initializeAllInputs() {

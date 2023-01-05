@@ -2,8 +2,8 @@
     margin-top: auto;
     width: 100%;
     text-align: center;
-    background-color: $back-dark;
-    color: $font-color-white;
+    background-color: $main-color;
+    color: $font-color;
 
     .footer__content {
         display: flex;
@@ -24,7 +24,7 @@
                 justify-content: center;
                 a {
                     text-decoration: none;
-                    color: $font-color-white;
+                    color: $font-color;
                 }
                 :hover {
                     color: rgb(160, 160, 160);
@@ -35,7 +35,7 @@
         .footer__rrs {
             height: 46px;
             margin-top: 4px;
-            border: solid 1px $font-color-white;
+            border: solid 1px $font-color;
         }
     }
 }
