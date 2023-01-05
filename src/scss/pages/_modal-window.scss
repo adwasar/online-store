@@ -69,6 +69,14 @@
                     color: $font-color-white;
                 }
 
+                .card-logo {
+                    margin: 5px;
+                    height: 30px;
+                    width: 45px;
+                    background-size: 100% 100%;
+                    border: solid 2px $back-dark;
+                }
+
             }
             .modal__submit {
                 margin: 10px auto;

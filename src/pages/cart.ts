@@ -1,5 +1,6 @@
 import {CartProducts} from "../types/cartProducts";
 import {getNum} from "../features/help-functions";
+import { renderModalWindowPage } from "./modalWindow";
 
 export const setResultFields = (data: CartProducts) => {
     const headerCart = document.querySelector('.header__cart-total') as HTMLElement;
@@ -138,7 +139,10 @@ export function renderCartPage(data: CartProducts): HTMLElement {
     const summaryPay = document.createElement('button');
     summaryPay.classList.add('summary__pay');
     summaryWrapper.append(summaryPay);
-    summaryPay.textContent = 'Оплата';
+    summaryPay.textContent = 'Оплата'
+    summaryPay.addEventListener('click', () => {
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+    })
 
     if (summaryAmount) {
         summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;

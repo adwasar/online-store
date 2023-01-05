@@ -2,6 +2,7 @@ import {createElementWithClass, getProductChain} from "../features/help-function
 import {Product} from "../types/product";
 import {setResultFields} from "./cart";
 import {CartProducts} from "../types/cartProducts";
+import { renderModalWindowPage } from "./modalWindow";
 
 const onAddToCartClicked = (product: Product, cartItems: CartProducts) => {
     cartItems.addProduct(product);
@@ -73,6 +74,9 @@ export function renderProductPage(product: Product, cartItems: CartProducts): HT
     const buyNowButton = document.createElement('button');
     addToCartButton.innerHTML = 'Добавить в корзину';
     buyNowButton.innerHTML = 'Купить сейчас';
+    buyNowButton.addEventListener('click', () => {
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+    });
     addToCartButton.onclick = () => onAddToCartClicked(product, cartItems);
     productBuyOptions.appendChild(addToCartButton);
     productBuyOptions.appendChild(buyNowButton);
