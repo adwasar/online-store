@@ -142,7 +142,7 @@ export function renderCartPage(data: CartProducts): HTMLElement {
     summaryWrapper.append(summaryPay);
     summaryPay.textContent = 'Оплата'
     summaryPay.addEventListener('click', () => {
-        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage(data));
     })
 
     if (summaryAmount) {

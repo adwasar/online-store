@@ -75,7 +75,7 @@ export function renderProductPage(product: Product, cartItems: CartProducts): HT
     addToCartButton.innerHTML = 'Добавить в корзину';
     buyNowButton.innerHTML = 'Купить сейчас';
     buyNowButton.addEventListener('click', () => {
-        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage());
+        document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage(cartItems));
     });
     addToCartButton.onclick = () => onAddToCartClicked(product, cartItems);
     productBuyOptions.appendChild(addToCartButton);

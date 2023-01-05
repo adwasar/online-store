@@ -1,8 +1,12 @@
+import {CartProducts} from "../types/cartProducts";
+import {setResultFields} from "./cart";
+import {onLogoClicked} from "../index";
+
 const success = document.createElement('div');
 success.classList.add('success');
-success.innerHTML = 'Заказ оформлен';
+success.innerHTML = 'Заказ оформлен. Через 3 секунды Вы будете перенаправлены на главную страницу.';
 
-export function renderModalWindowPage(): HTMLElement {
+export function renderModalWindowPage(cartItems: CartProducts): HTMLElement {
     const modalWindowPage = document.createElement('div');
     modalWindowPage.classList.add('modal');
     modalWindowPage.addEventListener('click', (e) => {
@@ -331,6 +335,12 @@ export function renderModalWindowPage(): HTMLElement {
 
         if (invalidsEnd.length === 0) {
             modalSubmit.after(success);
+            setTimeout(() => {
+                cartItems.clearCart();
+                setResultFields(cartItems);
+                onLogoClicked();
+                modalWindowPage.remove();
+            }, 3000)
         } else {
             success.remove();
         }
