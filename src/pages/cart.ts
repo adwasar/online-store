@@ -57,22 +57,23 @@ export function renderCartPage(data: CartProducts): HTMLElement {
         cartItemAmountInput.classList.add('cart-items__item-amount-input');
         cartItemAmountInput.setAttribute('type', 'number');
         cartItemAmountInput.setAttribute('min', '1');
+        cartItemAmountInput.onkeydown = () => false;
         cartItemAmountInput.setAttribute('max', String(item?.product.quantity));
         cartItemAmountInput.setAttribute('value', String(item?.getQuantity()));
 
-        let oldValue = cartItemAmountInput.value;
+        let oldValue = Number(cartItemAmountInput.value);
         console.log(`cartItemAmountInput.value = ${cartItemAmountInput.value}, oldValue = ${oldValue}`)
         cartItemAmount.innerHTML = 'Количество штук: ';
         cartItemAmount.append(cartItemAmountInput);
         cartItemAmountInput.addEventListener('input', () => {
-            if (cartItemAmountInput.value > oldValue) {
+            if (Number(cartItemAmountInput.value) > oldValue) {
                 if (item) {
                     data.addProduct(item.product);
                 }
-                oldValue = cartItemAmountInput.value;
+                oldValue = Number(cartItemAmountInput.value);
             } else {
                 data.decrementProduct(i);
-                oldValue = cartItemAmountInput.value;
+                oldValue = Number(cartItemAmountInput.value);
             }
             setResultFields(data);
         });

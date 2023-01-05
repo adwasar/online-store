@@ -12,8 +12,16 @@ const clickOnDetailsButton = (product: Product, cartItems: CartProducts) => {
     window.history.pushState({}, '', `/product/${product.id}`);
 }
 
-const clickOnAddToCardButton = (product: Product, cartItems: CartProducts) => {
-    cartItems.addProduct(product);
+const clickOnAddToCardButton = (product: Product, cartItems: CartProducts, button: HTMLElement) => {
+    if (cartItems.isInCart(product)) {
+        cartItems.removeProductById(product);
+        button.innerHTML = 'В корзину';
+        button.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+    } else {
+        cartItems.addProduct(product);
+        button.innerHTML = 'Удалить';
+        button.style.backgroundColor = 'red';
+    }
     setResultFields(cartItems);
     //todo add control on stock limit products
 }
@@ -41,7 +49,13 @@ export function renderMainPage(products: Product[], cartItems: CartProducts): HT
         `;
         const toCartButton = document.createElement('div');
         toCartButton.classList.add('products__buttons-in-cart');
-        toCartButton.innerHTML = 'В корзину';
+        if (cartItems.isInCart(products[i])) {
+            toCartButton.innerHTML = 'Удалить';
+            toCartButton.style.backgroundColor = 'red';
+        } else {
+            toCartButton.innerHTML = 'В корзину';
+            toCartButton.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+        }
 
         const detailsButton = document.createElement('div');
         detailsButton.classList.add('products__buttons-details');
@@ -51,8 +65,7 @@ export function renderMainPage(products: Product[], cartItems: CartProducts): HT
         productCard.querySelector('.products__item-buttons')?.appendChild(detailsButton);
 
         detailsButton.onclick = () => clickOnDetailsButton(products[i], cartItems);
-        toCartButton.onclick = () => clickOnAddToCardButton(products[i], cartItems);
-
+        toCartButton.onclick = () => clickOnAddToCardButton(products[i], cartItems, toCartButton);
         mainPage.appendChild(productCard);
     }
     return mainPage;

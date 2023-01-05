@@ -76,20 +76,6 @@ const onCopyButtonClicked = () => {
     });
 }
 
-const onSmallClicked = () => {
-    if (!smallButton.classList.contains('active')) {
-        smallButton.classList.add('active');
-    }
-    bigButton.classList.remove('active');
-}
-
-const onBigClicked = () => {
-    if (!bigButton.classList.contains('active')) {
-        bigButton.classList.add('active');
-    }
-    smallButton.classList.remove('active');
-}
-
 minPriceInput.oninput = onFiltersValueChanged;
 maxPriceInput.oninput = onFiltersValueChanged;
 minStockInput.oninput = onFiltersValueChanged;
@@ -106,8 +92,8 @@ sortInput.onchange = onFiltersValueChanged;
 filterName.oninput = onFiltersValueChanged;
 resetButton.onclick = onLogoClicked;
 copyButton.onclick = onCopyButtonClicked;
-smallButton.onclick = onSmallClicked;
-bigButton.onclick = onBigClicked;
+smallButton.onclick = onFiltersValueChanged;
+bigButton.onclick = onFiltersValueChanged;
 
 logoElement.src = logo;
 logoElement.onclick = onLogoClicked;
@@ -117,6 +103,7 @@ cartElement.onclick = onCartClicked;
 
 function onFiltersValueChanged(event: Event) {
     const eventTarget = (event.target as HTMLInputElement);
+
     switch (eventTarget?.id) {
         case 'from-slider-price':
             if (Number(eventTarget.value) >= Number(maxPriceInput.value)) {
@@ -157,12 +144,14 @@ function onFiltersValueChanged(event: Event) {
         (maxStockInput.value !== maxStockInput.max);
     const isNameFiltered = filterName.value !== '';
     const isSortingPicked = sortInput.selectedOptions.item(0)?.value !== String(-1);
+    const isBigClicked = eventTarget ? eventTarget.classList.contains('products__big') : false;
+    const isSmallClicked = eventTarget ? eventTarget.classList.contains('products__small') : false;
 
     let filteredDetails = detailsData.map((el) => el);
     let searchString = '/';
 
     if (isBrandChecked || isCategoryChecked || isPriceChanged ||
-        isStockChanged || isSortingPicked || isNameFiltered) {
+        isStockChanged || isSortingPicked || isNameFiltered || isSmallClicked || isBigClicked) {
 
         searchString += '?';
 
@@ -226,6 +215,33 @@ function onFiltersValueChanged(event: Event) {
             searchString += (searchString.length === 2 ? '' : '&')
                 + `stock=${minStockInput.value}|${maxStockInput.value}`;
         }
+
+        if (isBigClicked) {
+            if (!bigButton.classList.contains('active')) {
+                bigButton.classList.add('active');
+            }
+            smallButton.classList.remove('active');
+            searchString += (searchString.length === 2 ? '' : '&')
+                + `size=big`;
+        } else {
+            if (isSmallClicked) {
+                if (!smallButton.classList.contains('active')) {
+                    smallButton.classList.add('active');
+                }
+                bigButton.classList.remove('active');
+                searchString += (searchString.length === 2 ? '' : '&')
+                    + `size=small`;
+            } else {
+                if (!bigButton.classList.contains('active')) {
+                    searchString += (searchString.length === 2 ? '' : '&')
+                        + `size=small`;
+                } else {
+                    searchString += (searchString.length === 2 ? '' : '&')
+                        + `size=big`;
+                }
+            }
+        }
+
     }
 
     //filter by name
@@ -276,6 +292,18 @@ function onFiltersValueChanged(event: Event) {
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
     filterQuantity.innerText = `Найдено: ${filteredDetails.length}.`;
+    if (smallButton.classList.contains('active')) {
+        document.querySelectorAll('.products__item').forEach((item) => {
+            (item as HTMLElement).style.width = '200px';
+        })
+        document.querySelectorAll('.products__item .products__item-wrapper .products__item-text .products__item-info').forEach((item) => {
+            (item as HTMLElement).style.height = '12rem';
+        })
+    } else {
+        document.querySelectorAll('.products__item').forEach((item) => {
+            (item as HTMLElement).style.width = '291px';
+        })
+    }
 }
 
 function initializeAllInputs() {
@@ -314,6 +342,10 @@ function initializeAllInputs() {
 
     sortInput.selectedIndex = 0;
     filterName.value = '';
+    if (!bigButton.classList.contains('active')) {
+        bigButton.classList.add('active');
+    }
+    smallButton.classList.remove('active');
 }
 
 initializeAllInputs();
@@ -360,7 +392,7 @@ if (!searchString && pathString === '/') {
         }
     }
     if (searchString && pathString === '/') {
-        const {price, name, quantity, sorting, categories, brands} = new SearchQuery(searchString);
+        const {price, name, quantity, sorting, categories, brands, pageSize} = new SearchQuery(searchString);
         if (name) {
             filterName.value = name;
         }
@@ -425,6 +457,22 @@ if (!searchString && pathString === '/') {
                     case 'vanssi':
                         vanssiFilter.checked = true;
                         break;
+                }
+            }
+        }
+
+        if (pageSize) {
+            if (pageSize.toUpperCase() === 'BIG') {
+                if (!bigButton.classList.contains('active')) {
+                    bigButton.classList.add('active');
+                }
+                smallButton.classList.remove('active');
+            } else {
+                if (pageSize.toUpperCase() === 'SMALL') {
+                    if (!smallButton.classList.contains('active')) {
+                        smallButton.classList.add('active');
+                    }
+                    bigButton.classList.remove('active');
                 }
             }
         }
