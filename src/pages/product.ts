@@ -1,13 +1,9 @@
 import {createElementWithClass, getProductChain} from "../features/help-functions";
 import {Product} from "../types/product";
-import {setResultFields} from "./cart";
 import {CartProducts} from "../types/cartProducts";
 import { renderModalWindowPage } from "./modalWindow";
+import {clickOnAddToCardButton} from "./main";
 
-const onAddToCartClicked = (product: Product, cartItems: CartProducts) => {
-    cartItems.addProduct(product);
-    setResultFields(cartItems);
-}
 
 export function renderProductPage(product: Product, cartItems: CartProducts): HTMLElement {
     const {brand, name, images, description, price, quantity, category} = product;
@@ -77,7 +73,14 @@ export function renderProductPage(product: Product, cartItems: CartProducts): HT
     buyNowButton.addEventListener('click', () => {
         document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage(cartItems));
     });
-    addToCartButton.onclick = () => onAddToCartClicked(product, cartItems);
+    addToCartButton.onclick = () => clickOnAddToCardButton(product, cartItems, addToCartButton);
+    if (cartItems.isInCart(product)) {
+        addToCartButton.innerHTML = 'Удалить';
+        addToCartButton.style.backgroundColor = 'red';
+    } else {
+        addToCartButton.innerHTML = 'В корзину';
+        addToCartButton.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+    }
     productBuyOptions.appendChild(addToCartButton);
     productBuyOptions.appendChild(buyNowButton);
     productCardContainer.appendChild(productBuyOptions);
