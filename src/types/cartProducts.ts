@@ -5,17 +5,85 @@ export class CartProducts {
     private cartItems: CartItem[];
     private totalPrice: number;
     private totalQuantity: number;
+    private promoCodes:string[];
+    private discount:number;
 
     constructor() {
         this.cartItems = [];
         this.totalQuantity = 0;
         this.totalPrice = 0;
+        this.promoCodes = [];
+        this.discount = 0;
+    }
+
+    public addPromoCode(promoCode: string) {
+        let isAlreadyIn = false;
+        for (let i = 0; i < this.promoCodes.length; i++) {
+            if (promoCode.toUpperCase() === this.promoCodes[i].toUpperCase()) {
+                isAlreadyIn = true;
+                break;
+            }
+        }
+        if (isAlreadyIn) {
+            return this.discount;
+        } else {
+            this.promoCodes.push(promoCode.toUpperCase());
+            switch (promoCode.toUpperCase()) {
+                case 'RS10':
+                    this.discount += 10;
+                    break;
+                case 'RS20':
+                    this.discount += 20;
+                    break;
+                case 'SUPER':
+                    this.discount += 30;
+                    break;
+                default:
+                    this.discount += 0;
+                    break;
+            }
+            return this.discount;
+        }
+    }
+
+    public removePromoCode(promoCode: string) {
+        for (let i = 0; i < this.promoCodes.length; i++) {
+            if (promoCode.toUpperCase() === this.promoCodes[i].toUpperCase()) {
+                this.promoCodes.splice(i, 1);
+                switch (promoCode.toUpperCase()) {
+                    case 'RS10':
+                        this.discount -= 10;
+                        break;
+                    case 'RS20':
+                        this.discount -= 20;
+                        break;
+                    case 'SUPER':
+                        this.discount -= 30;
+                        break;
+                    default:
+                        this.discount -= 0;
+                        break;
+                }
+                return this.discount;
+            }
+        }
+        return this.discount;
+    }
+
+    public getPromocodes() {
+        return this.promoCodes;
+    }
+
+    public getDiscount() {
+        return this.discount;
     }
 
     public clearCart() {
         this.cartItems = [];
         this.totalQuantity = 0;
         this.totalPrice = 0;
+        this.promoCodes = [];
+        this.discount = 0;
     }
 
     public isInCart(product: Product) {

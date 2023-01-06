@@ -6,7 +6,7 @@ import {renderProductPage} from './pages/product';
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
 import favicon from './assets/img/icons/favicon.png';
-import {renderCartPage} from "./pages/cart";
+import {renderCartPage, setResultFields} from "./pages/cart";
 import {renderErrorPage} from './pages/errorPage';
 import {SearchQuery} from "./types/searchQuery";
 import {CartProducts} from "./types/cartProducts";
@@ -62,6 +62,7 @@ export const onLogoClicked = () => {
 const onCartClicked = () => {
     hideAllElements();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
+    setResultFields(cartItems);
     window.history.pushState({}, '', `/cart/`);
 }
 
@@ -478,4 +479,8 @@ if (!searchString && pathString === '/') {
         }
         onFiltersValueChanged(new Event(''));
     }
+}
+
+window.onpopstate = function() {
+    window.location.reload();
 }
