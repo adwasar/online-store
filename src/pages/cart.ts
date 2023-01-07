@@ -17,25 +17,16 @@ export const setResultFields = (data: CartProducts) => {
         if (!data.getPromocodes().length) {
             summaryTotal.innerHTML = `Всего: ${getNum(data.getTotalPrice())} грн.`;
         } else {
-            summaryTotal.innerHTML = `Всего: <strike>${getNum(data.getTotalPrice())} грн. </strike> <br>
+            summaryTotal.innerHTML = `Всего: <del>${getNum(data.getTotalPrice())} грн. </del> <br>
               Скидка:${getNum(data.getTotalPrice() * data.getDiscount() / 100)} грн. <br>
               Итого к оплате:${getNum(data.getTotalPrice() - data.getTotalPrice() * data.getDiscount() / 100)} грн.`;
         }
     }
 }
 
-export function renderCartPage(data: CartProducts): HTMLElement {
-    // const summaryDiscount = document.querySelector('.summary__discount') as HTMLElement;
-    //todo work with discount
-
-    const cartPage = document.createElement('div');
-    cartPage.classList.add('cart')
-
-    const cartItems = document.createElement('div');
-    cartItems.classList.add('cart-items');
-    cartPage.append(cartItems);
-
-    for (let i = 0; i < data.getItemsLength(); i++) {
+function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: HTMLInputElement, data: CartProducts, cartItems: HTMLDivElement, cartPage: HTMLDivElement, start: number, end: number) {
+    if (!data.getItemsLength()) return document.createElement('div');
+    for (let i = start;i < end; i++) {
         const item = data.getCartItem(i);
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-items__item');
@@ -99,10 +90,105 @@ export function renderCartPage(data: CartProducts): HTMLElement {
             setResultFields(data);
         }
     }
+}
+
+export function renderCartPage(data: CartProducts): HTMLElement {
+    const cartPage = document.createElement('div');
+    cartPage.classList.add('cart');
+
+    let limitQuery = localStorage.getItem('limit') || String(data.getItemsLength());
+    let pageQuery = localStorage.getItem('page') || '1';
+
+    const searchString = window.location.search;
+    if (searchString) {
+        let page = NaN;
+        let limit = NaN;
+        searchString.substring(1).split('&').forEach((el) => {
+            switch (el.split('=')[0].toUpperCase()) {
+                case 'LIMIT':
+                    limit = Number(el.split('=')[1]);
+                    break;
+                case 'PAGE':
+                    page = Number(el.split('=')[1]);
+                    break;
+            }
+        });
+        if (page && limit && limit <= data.getItemsLength() && page <= Math.ceil(data.getItemsLength() / limit)) {
+            pageQuery = String(page);
+            limitQuery = String(limit);
+        }
+    }
+
+    const cartItems = document.createElement('div');
+    cartItems.classList.add('cart-items');
+    const paginationControl = document.createElement('div');
+    paginationControl.style.fontSize = '3rem';
+    const limitPagination = document.createElement('input') as HTMLInputElement;
+    limitPagination.setAttribute('type', 'number');
+    limitPagination.setAttribute('min', '1');
+    limitPagination.onkeydown = () => false;
+    limitPagination.setAttribute('max', String(data.getItemsLength()));
+    limitPagination.setAttribute('value', limitQuery);
+    limitPagination.style.fontSize = '3rem';
+    limitPagination.style.width = '100px';
+    limitPagination.oninput = () => {
+        pagePagination.setAttribute('max', String(Math.ceil(data.getItemsLength() / Number(limitPagination.value))));
+        pagePagination.setAttribute('value', '1');
+        cartItems.innerHTML = '';
+        renderCartProducts(pagePagination, limitPagination, data, cartItems,
+            cartPage, 0, Math.min(data.getItemsLength(), Number(limitPagination.value)));
+        window.history.pushState({}, '', `/cart/?limit=${limitPagination.value}&page=${pagePagination.value}`);
+        pagePagination.value = '1';
+        localStorage.setItem('limit', limitPagination.value);
+        localStorage.setItem('page', pagePagination.value);
+    }
+
+    const pagePagination = document.createElement('input') as HTMLInputElement;
+    pagePagination.setAttribute('type', 'number');
+    pagePagination.setAttribute('min', '1');
+    pagePagination.onkeydown = () => false;
+    pagePagination.style.width = '100px';
+    pagePagination.setAttribute('max', '1');
+    pagePagination.setAttribute('value', pageQuery);
+    pagePagination.style.fontSize = '3rem';
+    pagePagination.oninput = () => {
+        const limit = Number(limitPagination.value);
+        const page = Number(pagePagination.value);
+        cartItems.innerHTML = '';
+        renderCartProducts(pagePagination, limitPagination, data, cartItems,
+            cartPage, limit * page - limit , Math.min(limit * page, data.getItemsLength()));
+        window.history.pushState({}, '', `/cart/?limit=${limitPagination.value}&page=${pagePagination.value}`);
+        localStorage.setItem('limit', limitPagination.value);
+        localStorage.setItem('page', pagePagination.value);
+    }
+    localStorage.setItem('limit', limitPagination.value);
+    localStorage.setItem('page', pagePagination.value);
+
+    paginationControl.style.width = '100%';
+    paginationControl.style.display = 'flex';
+    paginationControl.style.justifyContent = 'space-between';
+    paginationControl.style.alignItems = 'center';
+    paginationControl.append(`Лимит на странице: `);
+    paginationControl.appendChild(limitPagination);
+    paginationControl.append(`Страница: `);
+    paginationControl.appendChild(pagePagination);
+
+    cartPage.append(paginationControl);
+
+    const limit = Number(limitPagination.value);
+    const page = Number(pagePagination.value);
+    renderCartProducts(pagePagination, limitPagination, data, cartItems,
+        cartPage, limit * page - limit , Math.min(limit * page, data.getItemsLength()));
+    window.history.pushState({}, '', `/cart/?limit=${limitPagination.value}&page=${pagePagination.value}`);
+    pagePagination.setAttribute('max', String(Math.ceil(data.getItemsLength() / Number(limitPagination.value))));
 
     const summaryWrapper = document.createElement('div');
     summaryWrapper.classList.add('summary-wrapper');
-    cartPage.append(summaryWrapper);
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('cart__wrap');
+    wrapper.append(cartItems);
+    wrapper.append(summaryWrapper);
+    cartPage.append(wrapper);
 
     const summary = document.createElement('div');
     summary.classList.add('summary');

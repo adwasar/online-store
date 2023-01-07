@@ -5,8 +5,8 @@ export class CartProducts {
     private cartItems: CartItem[];
     private totalPrice: number;
     private totalQuantity: number;
-    private promoCodes:string[];
-    private discount:number;
+    private promoCodes: string[];
+    private discount: number;
 
     constructor() {
         this.cartItems = [];
@@ -14,6 +14,40 @@ export class CartProducts {
         this.totalPrice = 0;
         this.promoCodes = [];
         this.discount = 0;
+    }
+
+    public toJSON() {
+        return {
+            cartItems: this.cartItems.map((el) => {
+                return {product: el.product.id, quantity: el.getQuantity()}
+            }),
+            promoCodes: this.getPromocodes(),
+            totalPrice: this.totalPrice,
+            discount: this.discount,
+            totalQuantity: this.totalQuantity
+        };
+    }
+
+    public fromJSON(object: {
+                        cartItems: { product: number, quantity: number }[],
+                        promoCodes: string[],
+                        totalPrice: number,
+                        discount: number,
+                        totalQuantity: number
+                    }, data: { id: number, name: string, brand: string, quantity: number, price: number, description: string, category: string, images: string[] }[]
+    ) {
+        for (let j = 0; j < object.cartItems.length; j++) {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].id === object.cartItems[j].product) {
+                    this.cartItems.push(new CartItem(data[i], object.cartItems[j].quantity));
+                    break;
+                }
+            }
+        }
+        this.promoCodes = object.promoCodes;
+        this.totalPrice = object.totalPrice;
+        this.totalQuantity = object.totalQuantity;
+        this.discount = object.discount;
     }
 
     public addPromoCode(promoCode: string) {
@@ -42,6 +76,7 @@ export class CartProducts {
                     this.discount += 0;
                     break;
             }
+            localStorage.setItem('cart', JSON.stringify(this.toJSON()));
             return this.discount;
         }
     }
@@ -67,6 +102,7 @@ export class CartProducts {
                 return this.discount;
             }
         }
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
         return this.discount;
     }
 
@@ -84,6 +120,7 @@ export class CartProducts {
         this.totalPrice = 0;
         this.promoCodes = [];
         this.discount = 0;
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
     }
 
     public isInCart(product: Product) {
@@ -113,6 +150,7 @@ export class CartProducts {
             this.totalPrice += product.price;
             this.totalQuantity++;
         }
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
     }
 
     public decrementProduct(index: number) {
@@ -123,16 +161,18 @@ export class CartProducts {
         }
         this.totalQuantity--;
         this.totalPrice -= this.cartItems[index].product.price;
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
     }
 
     public removeProduct(index: number) {
         this.totalQuantity -= this.cartItems[index].getQuantity();
         this.totalPrice -= this.cartItems[index].product.price * this.cartItems[index].getQuantity();
         this.cartItems.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
     }
 
     public removeProductById(product: Product) {
-        for (let i = 0;i < this.cartItems.length;i++) {
+        for (let i = 0; i < this.cartItems.length; i++) {
             const cartItem = this.cartItems[i];
             if (cartItem.product.id === product.id) {
                 this.totalQuantity -= cartItem.getQuantity();
@@ -141,6 +181,7 @@ export class CartProducts {
                 break;
             }
         }
+        localStorage.setItem('cart', JSON.stringify(this.toJSON()));
     }
 
     public getTotalQuantity() {

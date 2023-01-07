@@ -46,8 +46,14 @@ const smallButton = document.querySelector('.products__small') as HTMLElement;
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
 const cartElement = document.querySelector('#cart') as HTMLImageElement;
 
-
+const cartLocalStorage = localStorage.getItem('cart');
+const localStorageObject = cartLocalStorage ? JSON.parse(cartLocalStorage) : {};
 const cartItems = new CartProducts();
+if (cartLocalStorage) {
+    cartItems.fromJSON(localStorageObject, detailsData);
+}
+console.log(cartItems);
+console.log(localStorageObject);
 
 
 export const onLogoClicked = () => {
@@ -63,7 +69,6 @@ const onCartClicked = () => {
     hideAllElements();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
     setResultFields(cartItems);
-    window.history.pushState({}, '', `/cart/`);
 }
 
 const onCopyButtonClicked = () => {
@@ -480,6 +485,8 @@ if (!searchString && pathString === '/') {
         onFiltersValueChanged(new Event(''));
     }
 }
+
+setResultFields(cartItems);
 
 window.onpopstate = function() {
     window.location.reload();
