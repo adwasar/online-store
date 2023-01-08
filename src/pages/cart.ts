@@ -42,12 +42,26 @@ function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: H
 
         const cartItemInfo = document.createElement('div');
         cartItemInfo.classList.add('cart-items__item-info');
+        cartItemInfo.style.fontSize = '1.4rem';
         cartItem.append(cartItemInfo);
 
         const cartItemName = document.createElement('div');
         cartItemName.classList.add('cart-items__item-name');
+        cartItemName.style.fontSize = '1.6rem';
         cartItemInfo.append(cartItemName);
         cartItemName.innerText = `${i+1}. ${item?.product.name}`;
+
+        const cartItemCategory = document.createElement('p');
+        cartItemCategory.innerHTML = `<b>Категория:</b> ${item?.product.category}`;
+        cartItemInfo.append(cartItemCategory);
+
+        const cartItemBrand = document.createElement('p');
+        cartItemBrand.innerHTML = `<b>Производитель:</b> ${item?.product.brand}`;
+        cartItemInfo.append(cartItemBrand);
+
+        const cartItemQuantity = document.createElement('p');
+        cartItemQuantity.innerHTML = `<b>В наличии:</b> ${item?.product.quantity} шт`;
+        cartItemInfo.append(cartItemQuantity);
 
         const cartItemAmount = document.createElement('div');
         cartItemAmount.classList.add('cart-items__item-amount');
