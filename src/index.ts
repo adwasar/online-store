@@ -6,7 +6,7 @@ import {renderProductPage} from './pages/product';
 import logo from './assets/img/logo.png';
 import cart from './assets/img/cart.png';
 import favicon from './assets/img/icons/favicon.png';
-import {renderCartPage} from "./pages/cart";
+import {renderCartPage, setResultFields} from "./pages/cart";
 import {renderErrorPage} from './pages/errorPage';
 import {SearchQuery} from "./types/searchQuery";
 import {CartProducts} from "./types/cartProducts";
@@ -46,8 +46,14 @@ const smallButton = document.querySelector('.products__small') as HTMLElement;
 const logoElement = document.querySelector('#logo') as HTMLImageElement;
 const cartElement = document.querySelector('#cart') as HTMLImageElement;
 
-
+const cartLocalStorage = localStorage.getItem('cart');
+const localStorageObject = cartLocalStorage ? JSON.parse(cartLocalStorage) : {};
 const cartItems = new CartProducts();
+if (cartLocalStorage) {
+    cartItems.fromJSON(localStorageObject, detailsData);
+}
+console.log(cartItems);
+console.log(localStorageObject);
 
 
 export const onLogoClicked = () => {
@@ -62,7 +68,7 @@ export const onLogoClicked = () => {
 const onCartClicked = () => {
     hideAllElements();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
-    window.history.pushState({}, '', `/cart/`);
+    setResultFields(cartItems);
 }
 
 const onCopyButtonClicked = () => {
@@ -292,6 +298,9 @@ function onFiltersValueChanged(event: Event) {
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
     filterQuantity.innerText = `Найдено: ${filteredDetails.length}.`;
+    if (filteredDetails.length === 0) {
+        productsPage.innerHTML = 'ПРОДУКТОВ С ЗАДАННЫМИ ПАРАМЕТРОМИ НЕ НАЙДЕНО. ПОВТОРИТЕ ПОИСК.'
+    }
     if (smallButton.classList.contains('active')) {
         document.querySelectorAll('.products__item').forEach((item) => {
             (item as HTMLElement).style.width = '200px';
@@ -478,4 +487,10 @@ if (!searchString && pathString === '/') {
         }
         onFiltersValueChanged(new Event(''));
     }
+}
+
+setResultFields(cartItems);
+
+window.onpopstate = function() {
+    window.location.reload();
 }

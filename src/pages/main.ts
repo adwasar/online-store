@@ -12,7 +12,7 @@ const clickOnDetailsButton = (product: Product, cartItems: CartProducts) => {
     window.history.pushState({}, '', `/product/${product.id}`);
 }
 
-const clickOnAddToCardButton = (product: Product, cartItems: CartProducts, button: HTMLElement) => {
+export const clickOnAddToCardButton = (product: Product, cartItems: CartProducts, button: HTMLElement) => {
     if (cartItems.isInCart(product)) {
         cartItems.removeProductById(product);
         button.innerHTML = 'В корзину';
