@@ -22,5 +22,10 @@
         color: $font-color;
         background-color: $main-color;
         cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: lighten(black, 20%);
+        }
     }
 }

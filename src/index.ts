@@ -66,7 +66,7 @@ export const onLogoClicked = () => {
     window.history.pushState({}, '', `/`);
 }
 
-const onCartClicked = () => {
+export const onCartClicked = () => {
     hideAllElements();
     document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(cartItems));
     setResultFields(cartItems);
@@ -347,6 +347,7 @@ function initializeAllInputs() {
     vanssiFilter.checked = false;
     autoFilter.checked = false;
     vtnFilter.checked = false;
+    gumexFilter.checked = false;
 
     bendiksFilter.checked = false;
     releFilter.checked = false;

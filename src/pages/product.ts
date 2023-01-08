@@ -3,6 +3,7 @@ import {Product} from "../types/product";
 import {CartProducts} from "../types/cartProducts";
 import { renderModalWindowPage } from "./modalWindow";
 import {clickOnAddToCardButton} from "./main";
+import {onCartClicked} from "../index";
 
 
 export function renderProductPage(product: Product, cartItems: CartProducts): HTMLElement {
@@ -71,6 +72,8 @@ export function renderProductPage(product: Product, cartItems: CartProducts): HT
     addToCartButton.innerHTML = 'Добавить в корзину';
     buyNowButton.innerHTML = 'Купить сейчас';
     buyNowButton.addEventListener('click', () => {
+        clickOnAddToCardButton(product, cartItems, addToCartButton);
+        onCartClicked();
         document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderModalWindowPage(cartItems));
     });
     addToCartButton.onclick = () => clickOnAddToCardButton(product, cartItems, addToCartButton);
