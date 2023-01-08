@@ -36,6 +36,7 @@ const lsaFilter = document.querySelector('#lsa') as HTMLInputElement;
 const vtnFilter = document.querySelector('#vtn') as HTMLInputElement;
 const vanssiFilter = document.querySelector('#vanssi') as HTMLInputElement;
 const autoFilter = document.querySelector('#auto') as HTMLInputElement;
+const gumexFilter = document.querySelector('#gumex') as HTMLInputElement;
 const sortInput = document.querySelector('.products__sort-bar') as HTMLSelectElement;
 const filterName = document.querySelector('.products__search-bar') as HTMLInputElement;
 const resetButton = document.querySelector('.filters__reset-filters') as HTMLElement;
@@ -94,6 +95,7 @@ lsaFilter.onchange = onFiltersValueChanged;
 vtnFilter.onchange = onFiltersValueChanged;
 vanssiFilter.onchange = onFiltersValueChanged;
 autoFilter.onchange = onFiltersValueChanged;
+gumexFilter.onchange = onFiltersValueChanged;
 sortInput.onchange = onFiltersValueChanged;
 filterName.oninput = onFiltersValueChanged;
 resetButton.onclick = onLogoClicked;
@@ -141,7 +143,7 @@ function onFiltersValueChanged(event: Event) {
             break;
     }
     const isBrandChecked = lsaFilter.checked || vtnFilter.checked ||
-        vanssiFilter.checked || autoFilter.checked;
+        vanssiFilter.checked || autoFilter.checked || gumexFilter.checked;
     const isCategoryChecked = bendiksFilter.checked || releFilter.checked ||
         starterFilter.checked || generatorFilter.checked;
     const isPriceChanged = (minPriceInput.value !== minPriceInput.min) ||
@@ -167,7 +169,8 @@ function onFiltersValueChanged(event: Event) {
                 ((lsaFilter.checked && detail.brand === 'LSA') ||
                     (autoFilter.checked && detail.brand === 'Авто-Электрика') ||
                     (vtnFilter.checked && detail.brand === 'ВТН') ||
-                    (vanssiFilter.checked && detail.brand === 'Vanssi'))
+                    (vanssiFilter.checked && detail.brand === 'Vanssi') ||
+                    (gumexFilter.checked && detail.brand === 'Gumex'))
             );
             const brandFilters: string[] = [];
             lsaFilter.checked ? brandFilters.push('lsa') : '';
@@ -316,6 +319,7 @@ function onFiltersValueChanged(event: Event) {
 }
 
 function initializeAllInputs() {
+    filterQuantity.innerText = `Найдено: 67.`;
     const minPrice = detailsData.reduce((acc, el) => el.price < acc ? el.price : acc, Infinity);
     const maxPrice = detailsData.reduce((acc, el) => el.price > acc ? el.price : acc, -Infinity);
     const minStock = detailsData.reduce((acc, el) => el.quantity < acc ? el.quantity : acc, Infinity);
