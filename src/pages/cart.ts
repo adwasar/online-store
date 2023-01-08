@@ -45,7 +45,7 @@ function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: H
         const cartItemName = document.createElement('div');
         cartItemName.classList.add('cart-items__item-name');
         cartItemInfo.append(cartItemName);
-        cartItemName.innerText = `${item?.product.name}`;
+        cartItemName.innerText = `${i+1}. ${item?.product.name}`;
 
         const cartItemAmount = document.createElement('div');
         cartItemAmount.classList.add('cart-items__item-amount');
@@ -53,13 +53,12 @@ function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: H
         const cartItemAmountInput = document.createElement('input') as HTMLInputElement;
         cartItemAmountInput.classList.add('cart-items__item-amount-input');
         cartItemAmountInput.setAttribute('type', 'number');
-        cartItemAmountInput.setAttribute('min', '1');
+        cartItemAmountInput.setAttribute('min', '0');
         cartItemAmountInput.onkeydown = () => false;
         cartItemAmountInput.setAttribute('max', String(item?.product.quantity));
         cartItemAmountInput.setAttribute('value', String(item?.getQuantity()));
 
         let oldValue = Number(cartItemAmountInput.value);
-        console.log(`cartItemAmountInput.value = ${cartItemAmountInput.value}, oldValue = ${oldValue}`)
         cartItemAmount.innerHTML = 'Количество штук: ';
         cartItemAmount.append(cartItemAmountInput);
         cartItemAmountInput.addEventListener('input', () => {
@@ -69,8 +68,15 @@ function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: H
                 }
                 oldValue = Number(cartItemAmountInput.value);
             } else {
-                data.decrementProduct(i);
-                oldValue = Number(cartItemAmountInput.value);
+                if (Number(cartItemAmountInput.value) === 0) {
+                    data.removeProduct(i);
+                    cartPage.remove();
+                    document.querySelector('main')?.querySelector('.wrapper')?.appendChild(renderCartPage(data));
+                    setResultFields(data);
+                }else {
+                    data.decrementProduct(i);
+                    oldValue = Number(cartItemAmountInput.value);
+                }
             }
             setResultFields(data);
         });
@@ -95,6 +101,13 @@ function renderCartProducts(pagePagination: HTMLInputElement, limitPagination: H
 export function renderCartPage(data: CartProducts): HTMLElement {
     const cartPage = document.createElement('div');
     cartPage.classList.add('cart');
+
+    if(data.getItemsLength() === 0) {
+        cartPage.innerHTML = 'Корзина пуста. Добавьте товары для отображения.';
+        cartPage.style.fontSize = '6rem';
+        cartPage.style.textAlign = 'center';
+        return cartPage;
+    }
 
     let limitQuery = localStorage.getItem('limit') || String(data.getItemsLength());
     let pageQuery = localStorage.getItem('page') || '1';

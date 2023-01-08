@@ -298,6 +298,9 @@ function onFiltersValueChanged(event: Event) {
     document.querySelector('.products')?.appendChild(productsPage);
     window.history.pushState({}, '', searchString);
     filterQuantity.innerText = `Найдено: ${filteredDetails.length}.`;
+    if (filteredDetails.length === 0) {
+        productsPage.innerHTML = 'ПРОДУКТОВ С ЗАДАННЫМИ ПАРАМЕТРОМИ НЕ НАЙДЕНО. ПОВТОРИТЕ ПОИСК.'
+    }
     if (smallButton.classList.contains('active')) {
         document.querySelectorAll('.products__item').forEach((item) => {
             (item as HTMLElement).style.width = '200px';
