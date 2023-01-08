@@ -6,9 +6,11 @@ export const setResultFields = (data: CartProducts) => {
     const headerCart = document.querySelector('.header__cart-total') as HTMLElement;
     const summaryAmount = document.querySelector('.summary__amount') as HTMLElement;
     const summaryTotal = document.querySelector('.summary__total') as HTMLElement;
+    const cartCounter = document.querySelector('#cart-counter') as HTMLImageElement;
 
     if (headerCart) {
-        headerCart.innerText = `Корзина: ${getNum(data.getTotalPrice())} грн. Количество товаров: ${data.getTotalQuantity()}`;
+        headerCart.innerText = `Корзина: ${getNum(data.getTotalPrice())} грн`;
+        cartCounter.innerText = `${data.getTotalQuantity()}`
     }
     if (summaryAmount) {
         summaryAmount.innerHTML = `Товаров: ${data.getTotalQuantity()} шт.`;

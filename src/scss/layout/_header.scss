@@ -1,16 +1,48 @@
 .header {
   width: 100%;
+  box-sizing: border-box;
   color: $font-color;
   background-color: $main-color;
   .header__wrapper {
     height: 56px;
+    padding: 5px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 
-    .header__cart, .header__logo {
+    .header__logo {
+      height: 147px;
+      #logo {
+        position: relative;
+        top: -4px;
+        height: 150px;
+        cursor: pointer;
+      }
+    }
+
+    .header__cart {
+      position: relative;
+      height: 100%;
       cursor: pointer;
+      #cart {
+        height: 100%;
+      }
+
+      #cart-counter {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        top: calc(100% - 24px);
+        left: -6px;
+        background-color: #ca0c16;
+        border-radius: 50%;
+        text-align: center;
+      }
     }
   }
 }
