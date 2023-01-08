@@ -1,3 +1,5 @@
+import {onLogoClicked} from "../index";
+
 export function renderErrorPage(): HTMLElement {
     const errorPage = document.createElement('div');
     errorPage.classList.add('error-page');
@@ -15,6 +17,7 @@ export function renderErrorPage(): HTMLElement {
     const errorBtn = document.createElement('button');
     errorBtn.classList.add('error__btn');
     errorPage.append(errorBtn);
+    errorBtn.onclick = onLogoClicked;
     errorBtn.textContent = 'Перейти на главную'
 
     return errorPage;
