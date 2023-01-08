@@ -177,6 +177,7 @@ function onFiltersValueChanged(event: Event) {
             vtnFilter.checked ? brandFilters.push('vtn') : '';
             autoFilter.checked ? brandFilters.push('auto') : '';
             vanssiFilter.checked ? brandFilters.push('vanssi') : '';
+            gumexFilter.checked ? brandFilters.push('gumex') : '';
             searchString += 'brand=' + brandFilters.join('|');
         }
 
@@ -470,6 +471,9 @@ if (!searchString && pathString === '/') {
                         break;
                     case 'vanssi':
                         vanssiFilter.checked = true;
+                        break;
+                    case 'gumex':
+                        gumexFilter.checked = true;
                         break;
                 }
             }
