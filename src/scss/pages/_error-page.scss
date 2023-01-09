@@ -1,0 +1,31 @@
+.error-page {
+    text-align: center;
+    .error__title {
+        margin-top: 80px;
+        font-size: 5rem;
+    }
+
+    .error__description {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 2;
+        width: 800px;
+    }
+
+    .error__btn {
+        font-size: 1.6rem;
+        margin-top: 50px;
+        height: 37px;
+        width: 290px;
+        border: none;
+        color: $font-color;
+        background-color: $main-color;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: lighten(black, 20%);
+        }
+    }
+}

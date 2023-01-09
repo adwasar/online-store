@@ -1,0 +1,101 @@
+.cart {
+    margin: 40px 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column ;
+    .cart-items {
+        width: 100%;
+    }
+
+    .summary-wrapper {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .summary {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        height: 350px;
+        border: solid 1px black;
+        justify-content: right;
+        .summary__title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: $font-color;
+            background-color: $main-color;
+            box-sizing: border-box;
+            height: 29px;
+        }
+
+        .summary__info {
+            display: flex;
+            box-sizing: border-box;
+            height: 100%;
+            flex-direction: column;
+            padding: 5px;
+            .summary__promo {
+                margin-top: 5px;
+                padding: 5px;
+                height: 25px;
+                box-sizing: content-box;
+                text-align: center;
+                color: $font-color;
+                background-color: $main-color;
+                .summary__promo-input {
+                    border: none;
+                    width: 100%;
+                    height: 100%;
+                    color: $font-color;
+                    background-color: $main-color;
+                }
+            }
+
+            .summary__total {
+                margin-top: auto;
+                font-weight: 700;
+                font-size: 2rem;
+            }
+        }
+    }
+}
+
+.summary__pay {
+    font-size: 1.6rem;
+    margin-top: 15px;
+    height: 37px;
+    width: 100%;
+    border: none;
+    background-color: $sub-color;
+}
+
+.summary__discount-add {
+    margin-left: 20px;
+    width: 100px;
+    color: $main-color;
+    background-color: lighten($sub-color, 50%);
+    border: 1px solid $sub-color;
+}
+
+.summary__discount-del {
+    margin-left: 20px;
+    width: 100px;
+    color: $main-color;
+    background-color: lighten(red, 30%);
+    border: 1px solid red;
+}
+
+.summary__discount-del, .summary__discount-add{
+    transition: border 0.2s ease;
+
+    &:hover {
+        cursor: pointer;
+        border-width: 2px;
+    }
+}
+
+.cart__wrap {
+    display: flex;
+}
