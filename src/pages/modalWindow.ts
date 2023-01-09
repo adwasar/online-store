@@ -1,6 +1,6 @@
 import {CartProducts} from "../types/cartProducts";
 import {setResultFields} from "./cart";
-import {onLogoClicked} from "../index";
+import {onLogoClicked} from "../app";
 
 const success = document.createElement('div');
 success.classList.add('success');

@@ -3,7 +3,7 @@ import {Product} from "../types/product";
 import {CartProducts} from "../types/cartProducts";
 import { renderModalWindowPage } from "./modalWindow";
 import {clickOnAddToCardButton} from "./main";
-import {onCartClicked} from "../index";
+import {onCartClicked} from "../app";
 
 
 export function renderProductPage(product: Product, cartItems: CartProducts): HTMLElement {
