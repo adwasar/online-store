@@ -35,8 +35,6 @@ export class SearchQuery {
                     break;
             }
         }
-        console.log(`searchString = ${searchString}`)
-        console.log(this);
     }
     public categories: string[];
     public brands: string[];

@@ -1,4 +1,4 @@
-import {onLogoClicked} from "../index";
+import {onLogoClicked} from "../app";
 
 export function renderErrorPage(): HTMLElement {
     const errorPage = document.createElement('div');
